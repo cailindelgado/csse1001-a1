@@ -36,11 +36,11 @@ def get_recipe_name(recipe: tuple([str, str])) -> str:
       
 def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
     bits = raw_ingredient_detail.split(" ")
-    return (float(bits[0], bits[1], bits[2]))
+    return (float(bits[0]), bits[1], bits[2])
 
 
-parse_ingredient('0.75 cup water')
-    #>> 0.75 "cup" "water"
+# parse_ingredient('0.75 cup water')
+#     #>> 0.75 "cup" "water"
 
 def create_recipe() -> tuple[str, str]:
     """Returns the recipe in the tuple[str, str] format after a series of prompting. 
@@ -109,7 +109,6 @@ def main_func() -> None:
     pass
 
 
-
 def main():
     """ Write your docstring """
     # cook book
@@ -121,6 +120,12 @@ def main():
         PEANUT_BUTTER, 
         MUNG_BEAN_OMELETTE
     ]
-    
-    # Write the rest of your code here
 
+    parse_ingredient('0.75 cup water')
+
+#     # Write the rest of your code here
+#     output = parse_ingredient("0.75 cup water")
+#     print(output)
+
+if __name__ == "__main__":
+    main()
