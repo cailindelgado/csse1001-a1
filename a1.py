@@ -4,7 +4,7 @@ Semester 1, 2023
 """
 
 def num_hours() -> float:
-    return 3
+    return 5
 
 # Fill these in with your details
 __author__ = "Cailin H Delgado"
@@ -17,41 +17,47 @@ from constants import *
 
 def get_recipe_name(recipe: tuple([str, str])) -> str:
     """Returns the name of the recipe.
+        get_recipe_name('chocco banana milkshake', '1.3 bananas')
+    >> 'chocco banana milkshake'
     """
-    print(recipe[0])
-#get_recipe_name(('chocolate peanut butter banana shake', '1 Large banana, 240 ml almond milk'))
+    return recipe[0]
 
-
-# def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
-#     """Returns the ingredient breakdown from the details amount, measure and ingredient.
-#     """
-#     ingredient_breakdown = () 
-#     for char in range(0, len(raw_ingredient_detail) + 1):
-#         if raw_ingredient_detail[char] == " ":
-#             ingredient_breakdown.add(raw_ingredient_detail[0:char])
-
-#     print(ingredient_breakdown)
-#     return ingredient_breakdown[float(), str(), str()]
-
-      
 def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
-    bits = raw_ingredient_detail.split(" ")
-    return (float(bits[0]), bits[1], bits[2])
-
-
-# parse_ingredient('0.75 cup water')
-#     #>> 0.75 "cup" "water"
-
+    """Returns the ingredient breakdown from the details amount, measure and ingredient.
+    """
+    details_of_ingredient = raw_ingredient_detail.split(" ")
+    return (float(details_of_ingredient[0]), details_of_ingredient[1], details_of_ingredient[2])
+      
 def create_recipe() -> tuple[str, str]:
     """Returns the recipe in the tuple[str, str] format after a series of prompting. 
        The recipe name is prompted first followed by continuous ingredient prompting
        until an empty string is returned. 
     """
+    recipe_name = input("please enter the recipe name: ")
+    recipe_list = list()
+    recipe_list.append(recipe_name)
+    while True:
+        recipe_ingredient = input("Please enter an ingredient: ")
+        if recipe_ingredient == "" or recipe_ingredient == " ":
+            break
+        else:
+            recipe_list.append(recipe_ingredient)
+
+    return tuple(recipe_list)
 
 def recipe_ingredients(recipe: tuple[str, str]) -> tuple[tuple[float, str, str]]:
     """Returns the ingredients of a recipe amount, measure and ingredient. This transforms 
        a given recipe from the string form into the tuples form.
     """
+    recipe_details = str(recipe[1])
+    recipe_ingredients_details = recipe_details.split(",")
+    for num in range(0, len(recipe_ingredients_details)):
+        ingredient_breakdown = parse_ingredient(recipe_ingredients_details[n])
+        
+        return 
+        
+
+
 
 def add_recipe(new_recipe: tuple[str, str]):
     """Add agiven recipe, new_recipe, into the list of recipes.
@@ -120,12 +126,6 @@ def main():
         PEANUT_BUTTER, 
         MUNG_BEAN_OMELETTE
     ]
-
-    parse_ingredient('0.75 cup water')
-
-#     # Write the rest of your code here
-#     output = parse_ingredient("0.75 cup water")
-#     print(output)
 
 if __name__ == "__main__":
     main()
