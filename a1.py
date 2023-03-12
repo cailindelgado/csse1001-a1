@@ -26,7 +26,7 @@ def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
     """Returns the ingredient breakdown from the details amount, measure and ingredient.
     """
     details_of_ingredient = raw_ingredient_detail.split(" ")
-    return tuple(float(details_of_ingredient[0]), details_of_ingredient[1], details_of_ingredient[2])
+    return (float(details_of_ingredient[0]), details_of_ingredient[1], details_of_ingredient[2])
       
 def create_recipe() -> tuple[str, str]:
     """Returns the recipe in the tuple[str, str] format after a series of prompting. 
@@ -100,6 +100,8 @@ def get_ingredient_amount(ingredient: str, recipe: tuple[str, str]) -> tuple[flo
     """Return the amount and measure of a certain ingredient as a tuple[float, str] given an ingredient name 
        as a str and a recipe. If the ingredient doesnt exist then nothing happens
     """
+    ingredient_list = list(parse_ingredient(recipe[1]))
+    print(ingredient_list)
     
 
         
