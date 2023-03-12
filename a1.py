@@ -4,7 +4,7 @@ Semester 1, 2023
 """
 
 def num_hours() -> float:
-    return 5
+    return 7.28
 
 # Fill these in with your details
 __author__ = "Cailin H Delgado"
@@ -26,7 +26,7 @@ def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
     """Returns the ingredient breakdown from the details amount, measure and ingredient.
     """
     details_of_ingredient = raw_ingredient_detail.split(" ")
-    return (float(details_of_ingredient[0]), details_of_ingredient[1], details_of_ingredient[2])
+    return tuple(float(details_of_ingredient[0]), details_of_ingredient[1], details_of_ingredient[2])
       
 def create_recipe() -> tuple[str, str]:
     """Returns the recipe in the tuple[str, str] format after a series of prompting. 
@@ -36,13 +36,17 @@ def create_recipe() -> tuple[str, str]:
     recipe_name = input("please enter the recipe name: ")
     recipe_list = list()
     recipe_list.append(recipe_name)
+    recipe_ingredients = ""
+    recipe_final_ingredients = ""
     while True:
         recipe_ingredient = input("Please enter an ingredient: ")
         if recipe_ingredient == "" or recipe_ingredient == " ":
-            break
+           recipe_final_ingredients = recipe_ingredients[:-1] 
+           break
         else:
-            recipe_list.append(recipe_ingredient)
-
+            recipe_ingredients += recipe_ingredient.strip() + ','
+            
+    recipe_list.append(recipe_final_ingredients)
     return tuple(recipe_list)
 
 def recipe_ingredients(recipe: tuple[str, str]) -> tuple[tuple[float, str, str]]:
@@ -51,32 +55,55 @@ def recipe_ingredients(recipe: tuple[str, str]) -> tuple[tuple[float, str, str]]
     """
     recipe_details = str(recipe[1])
     recipe_ingredients_details = recipe_details.split(",")
+    ingredient_breakdown = [] # list[tuple[float, str, str]]
     for num in range(0, len(recipe_ingredients_details)):
-        ingredient_breakdown = parse_ingredient(recipe_ingredients_details[n])
-        
-        return 
-        
+        ingredient_breakdown.append(parse_ingredient(recipe_ingredients_details[num]))
+    print(tuple(ingredient_breakdown))
+    return tuple(ingredient_breakdown)
 
-
-
-def add_recipe(new_recipe: tuple[str, str]):
-    """Add agiven recipe, new_recipe, into the list of recipes.
+def add_recipe(new_recipe: tuple[str, str], recipes: list[tuple[str, str]]):
+    """Add a given recipe, new_recipe, into the list of recipes.
        Hint: this function doesn't return anything  """
+    #add the inputted recipe to the list of tuples recipe:
+    recipes += new_recipe
+#NOTE why arent brackets appearing around the new insert
 
 def find_recipe(recipe_name: str, recipes: list[tuple[str, str]]) -> tuple[str, str] | None:
-    """return a recipe or NON. This function should attempt to fins the recipe by the
-       given recipe name within the list of recipes. If the recipe can not be found then 
-       this function should return NONE."""
+    """This function find and returns a recipe with a given recipe_name if it cannot be found returns None 
+    """
+    check_for_similarity_counter = 0  
+    for char in recipes:
+        if recipe_name not in char:
+            check_for_similarity_counter += 1 
+    
+    if check_for_similarity_counter == len(recipes):
+        return None
+
+    for pos, char in enumerate(recipes):
+        if recipe_name in char: 
+           return recipes[pos]
 
 def remove_recipe(name: str, recipes: list[tuple[str, str]]) -> None:
     """remove a recipe from the list of recipes given the name of a recipe. If the recipe 
        name doesn't match any of the recipes withing the list of recipes then nothing happens
     """
+    recipes_list = list(recipes) 
+    for pos, tup in enumerate(recipes_list):
+        if name not in tup:
+            return None
+        else:
+            recipes_list.pop(pos)
+    print(tuple(recipes_list))
+#NOTE come back to this later
 
 def get_ingredient_amount(ingredient: str, recipe: tuple[str, str]) -> tuple[float, str] | None:
     """Return the amount and measure of a certain ingredient as a tuple[float, str] given an ingredient name 
        as a str and a recipe. If the ingredient doesnt exist then nothing happens
     """
+    
+
+        
+
 
 def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_list: list[tuple[float, str, str] | None]) -> None:
     """Add an ingredient to the shopping list which could either be empty or contain tuples of ingredient details. 
