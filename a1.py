@@ -25,9 +25,11 @@ def get_recipe_name(recipe: tuple([str, str])) -> str:
 def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
     """Returns the ingredient breakdown from the details amount, measure and ingredient.
     """
-    details_of_ingredient = raw_ingredient_detail.split(" ")
-    return (float(details_of_ingredient[0]), details_of_ingredient[1], details_of_ingredient[2])
-    #NOTE fix so that if the input is 20 g coffee beans it wont return 20 g coffee
+    bits = raw_ingredient_detail.split(" ")
+    details_of_ingredients = (float(bits[0]), bits[1], " ".join(bits[2:]))
+    
+    return details_of_ingredients
+
     
 def create_recipe() -> tuple[str, str]:
     """Returns the recipe in the tuple[str, str] format after a series of prompting. 
@@ -66,8 +68,8 @@ def add_recipe(new_recipe: tuple[str, str], recipes: list[tuple[str, str]]):
     """Add a given recipe, new_recipe, into the list of recipes.
        Hint: this function doesn't return anything  """
     #add the inputted recipe to the list of tuples recipe:
-    recipes += new_recipe
-#NOTE why arent brackets appearing around the new insert
+    recipes.append(new_recipe)
+    return recipes
 
 def find_recipe(recipe_name: str, recipes: list[tuple[str, str]]) -> tuple[str, str] | None:
     """This function find and returns a recipe with a given recipe_name if it cannot be found returns None 

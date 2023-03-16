@@ -13,7 +13,7 @@ def test_get_recipe_name():
 def test_parse_ingredients():
     raw_ingredient_detail = "0.75 cup water of life"
     output = parse_ingredient(raw_ingredient_detail)
-    assert output == (0.75, 'cup', 'water')
+    assert output == (0.75, 'cup', 'water of life')
     # return output
 
 @pytest.mark.skip()
@@ -36,8 +36,8 @@ def test_recipe_ingredients():
 
 def test_add_recipe():
     new_recipe = ('peanut butter', '300g peanuts,0.5tsp salt,2 tsp oil')
-    recipe = [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, PEANUT_BUTTER, MUNG_BEAN_OMELETTE]
-    output = add_recipe(new_recipe, recipe)
+    recipes  = [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, PEANUT_BUTTER, MUNG_BEAN_OMELETTE]
+    output = add_recipe(new_recipe, recipes)
     return output
     """
     >>> recipes = []

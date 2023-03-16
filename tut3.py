@@ -61,3 +61,6 @@ def reverse_complement(dna: str) -> bool | none:
 #     if dna is not None:
 #         for codon in dna: 
 #             print(codon)
+
+
+x = input()
