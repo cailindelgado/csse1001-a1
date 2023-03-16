@@ -11,7 +11,7 @@ def test_get_recipe_name():
 
 
 def test_parse_ingredients():
-    raw_ingredient_detail = "0.75 cup water"
+    raw_ingredient_detail = "0.75 cup water of life"
     output = parse_ingredient(raw_ingredient_detail)
     assert output == (0.75, 'cup', 'water')
     # return output
@@ -56,12 +56,10 @@ def test_find_recipe():
     output = find_recipe(recipe_name, recipe)
     return output
 
-@pytest.mark.skip()
 def test_remove_recipe():
     name = 'peanut butter'
     recipe = [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, PEANUT_BUTTER, MUNG_BEAN_OMELETTE]
     output = remove_recipe(name, recipe)
-    return output
     # assert output == [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, MUNG_BEAN_OMELETTE]
 
 def test_get_ingredient_ammount():

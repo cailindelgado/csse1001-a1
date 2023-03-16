@@ -27,7 +27,8 @@ def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
     """
     details_of_ingredient = raw_ingredient_detail.split(" ")
     return (float(details_of_ingredient[0]), details_of_ingredient[1], details_of_ingredient[2])
-      
+    #NOTE fix so that if the input is 20 g coffee beans it wont return 20 g coffee
+    
 def create_recipe() -> tuple[str, str]:
     """Returns the recipe in the tuple[str, str] format after a series of prompting. 
        The recipe name is prompted first followed by continuous ingredient prompting
@@ -89,27 +90,21 @@ def remove_recipe(name: str, recipes: list[tuple[str, str]]) -> None:
     """
     recipes_list = list(recipes) 
     for pos, tup in enumerate(recipes_list):
-        if name not in tup:
-            return None
-        else:
+        if name in tup:
             recipes_list.pop(pos)
+
     print(tuple(recipes_list))
-#NOTE come back to this later
+#NOTE come back to this later, why doesnt assert work
 
 def get_ingredient_amount(ingredient: str, recipe: tuple[str, str]) -> tuple[float, str] | None:
     """Return the amount and measure of a certain ingredient as a tuple[float, str] given an ingredient name 
        as a str and a recipe. If the ingredient doesnt exist then nothing happens
     """
-    ingredient_list = list(parse_ingredient(recipe[1]))
-    print(ingredient_list)
-    
-
-        
 
 
 def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_list: list[tuple[float, str, str] | None]) -> None:
-    """Add an ingredient to the shopping list which could either be empty or contain tuples of ingredient details. 
-       If the ingredient being added already exists within the list then the amount should be combines. If the ingredient doesn't exist
+    """Add an ingredient to the shopping list which could either be empty or contain tuples of ingredient details. If the 
+       ingredient being added already exists within the list then the amount should be combines. If the ingredient doesn't exist
        then it can be added without any calculations.
 
        It is assumes that the measure is consistent for all ingredients of the same name. In addition, ingredient_details contains all the
@@ -135,17 +130,10 @@ def sanitise_command(commnd: str) -> str:
        recipes can only contain lower case letters 
     """
 
-def main_func() -> None:
-#    command = input('Please enter a command: ')
-#    while command != 'quit':
-#        if command == 'h' or 'H':
-#            print(HELP_TEXT)
-#            break
-    pass
-
-
 def main():
-    """ Write your docstring """
+    """ for commant prompt, will take in a command and call the nessesary function for that command 
+        and execute it.
+    """
     # cook book
     recipe_collection = [
         CHOCOLATE_PEANUT_BUTTER_SHAKE, 
