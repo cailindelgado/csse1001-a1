@@ -36,7 +36,7 @@ def create_recipe() -> tuple[str, str]:
        The recipe name is prompted first followed by continuous ingredient prompting
        until an empty string is returned. 
     """
-    recipe_name = input("please enter the recipe name: ")
+    recipe_name = input("Please enter the recipe name: ")
     recipe_list = list()
     recipe_list.append(recipe_name)
     recipe_ingredients = ""
@@ -67,7 +67,6 @@ def recipe_ingredients(recipe: tuple[str, str]) -> tuple[tuple[float, str, str]]
 def add_recipe(new_recipe: tuple[str, str], recipes: list[tuple[str, str]]):
     """Add a given recipe, new_recipe, into the list of recipes.
        Hint: this function doesn't return anything  """
-    #add the inputted recipe to the list of tuples recipe:
     recipes.append(new_recipe)
     return recipes
 
