@@ -18,3 +18,13 @@ def splitter(input: str, split: str):
     return char(ord('A') + 32)
     >> a
 """
+
+
+def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
+    """Returns the ingredient breakdown from the details amount, measure and ingredient.
+    """
+    bits = raw_ingredient_detail.split(" ", 2)
+    #NOTE you can declare how many times .split() will split     
+
+    return float(bits[0]), bits[1], bits[2]
+    #NOTE functions automaticly return as tuples if there are more than one outputs

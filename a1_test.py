@@ -1,7 +1,7 @@
 import io
 import pytest
 from constants import *
-from a1 import get_recipe_name, parse_ingredient, create_recipe, recipe_ingredients, add_recipe, find_recipe, remove_recipe, get_ingredient_amount
+from a1 import get_recipe_name, parse_ingredient, create_recipe, recipe_ingredients, add_recipe, find_recipe, remove_recipe, get_ingredient_amount, add_to_shopping_list, remove_from_shopping_list, generate_shopping_list
 
 def test_get_recipe_name():
     recipe = ('chocolate peanut butter banana shake', '1 large banana,2 tbsp peanut butter')
@@ -60,11 +60,32 @@ def test_remove_recipe():
     name = 'peanut butter'
     recipe = [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, PEANUT_BUTTER, MUNG_BEAN_OMELETTE]
     output = remove_recipe(name, recipe)
-    # assert output == [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, MUNG_BEAN_OMELETTE]
+    return output
+    assert output == [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, MUNG_BEAN_OMELETTE]
 
 def test_get_ingredient_ammount():
     ingredient = 'peanuts' 
-    recipe = [PEANUT_BUTTER]
+    recipe = ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')
     output = get_ingredient_amount(ingredient, recipe)
-    return output
+    print(output)
+    # assert output == (300, "g")
+
+def test_add_to_shopping_list():
+    ingredient_details = (1000.0, 'g', 'tofu')
+    shopping_list = [(300.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil')]
+    output = add_to_shopping_list(ingredient_details, shopping_list)
+    print(output)
     
+
+def test_remove_from_shopping_list():
+    ingredient_name = 'peanuts'
+    amount = 500
+    shopping_list = [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'), (9000.0, 'g', 'tofu'), (100.0, 'g', 'sugar'), (50.0, 'g', 'tomato sauce'), (120.0, 'g', 'rice'), (920.0, 'g', 'ice cream')]
+    output = remove_from_shopping_list(ingredient_name, amount, shopping_list)
+    print(output)
+
+
+def test_generate_shopping_list():
+    recipes = [(BROWNIE)]
+    output = generate_shopping_list(recipes)
+    print(output)
