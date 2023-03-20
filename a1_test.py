@@ -89,3 +89,15 @@ def test_generate_shopping_list():
     recipes = [BROWNIE, PEANUT_BUTTER]
     shopping_list = generate_shopping_list(recipes)
     print(f"shopping list: {shopping_list}")
+
+def test_display_ingredients():
+    shopping_list = [BROWNIE]
+    output = display_ingredients(shopping_list)
+    # print(display_ingredients(shopping_list=[BROWNIE]))
+    print(output)
+
+def test_sanitise_command():
+    comand = "add chocolate brownies   5"
+    output = sanitise_comand(comand)
+    print(f'This is the command: "{output}"')
+    assert output == "add chocolate brownies"

@@ -64,31 +64,30 @@ def add_recipe(new_recipe: tuple[str, str], recipes: list[tuple[str, str]]):
     """Add a given recipe, new_recipe, into the list of recipes.
        Hint: this function doesn't return anything  """
     recipes.append(new_recipe)
-    return 
+#NOTE test this func
 
 def find_recipe(recipe_name: str, recipes: list[tuple[str, str]]) -> tuple[str, str] | None:
     """This function find and returns a recipe with a given recipe_name if it cannot be found returns None 
     """
     check_for_similarity_counter = 0  
-    for char in recipes:
-        if recipe_name not in char:
+    for item in recipes:
+        if recipe_name not in item:
             check_for_similarity_counter += 1 
     
     if check_for_similarity_counter == len(recipes):
         return None
 
-    for pos, char in enumerate(recipes):
-        if recipe_name in char: 
+    for pos, item in enumerate(recipes):
+        if recipe_name in item: 
            return recipes[pos]
 
 def remove_recipe(name: str, recipes: list[tuple[str, str]]) -> None:
     """remove a recipe from the list of recipes given the name of a recipe. If the recipe 
        name doesn't match any of the recipes withing the list of recipes then nothing happens
     """
-    for pos, tup in enumerate(recipes):
-        if name in tup:
+    for pos, recipe in enumerate(recipes):
+        if name in recipe:
             recipes.pop(pos)
-
     print(tuple(recipes))
 #NOTE come back to this later, why doesnt assert work
 
@@ -109,7 +108,7 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
        all the information about the ingredient being added to the shopping list. Also, the order doesn't matter. 
     """
     shopping_list_copy = shopping_list.copy()
-    counter = 0
+    check = True
     if shopping_list == []:
         shopping_list.append(ingredient_details)
     else: 
@@ -121,12 +120,12 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
                     list_recipe.insert(0, new_amount)
                     list_recipe.pop(1)
                     shopping_list.insert(0, list_recipe)
+                    check = True
                 elif char != ingredient_details[2]:
-                    counter += 1
+                    check = False
 
-            if counter == len(shopping_list):
-                shopping_list.append(ingredient_details)
-
+        if check == False:
+            shopping_list.append(ingredient_details)
 
 def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list: list) -> None:
     """Remove a certain amount of an ingredient, with the given ingredient_name, from the shopping list. If the ingredient exists in the shopping_list
@@ -135,14 +134,14 @@ def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list
     """
     #NOTE doesnt say i have to remove the item if its amount hits 0
     shopping_list_copy = shopping_list.copy()
-    if shopping_list == []
+    if shopping_list == []:
         return None
     else: 
-        for pos, tup in enumerate(shopping_list_copy):
-            if ingredient_name == tup[2] and (amount >= tup[0] or amount == tup[0]):
+        for pos, item in enumerate(shopping_list_copy):
+            if ingredient_name == item[2] and (amount >= item[0] or amount == item[0]):
                 shopping_list.pop(pos)
-            elif ingredient_name == tup[2]:
-                list_recipe = list(tup)
+            elif ingredient_name == item[2]:
+                list_recipe = list(item)
                 shopping_list.pop(pos)
                 new_amount = list_recipe[0] - amount
                 list_recipe.insert(0, new_amount)
@@ -162,16 +161,17 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
 
     return shopping_list
 
-
 def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
     """Print the given shopping list in any order you wish. **attempt to print alphabetical
     """
+    return shopping_list
 
-def sanitise_command(commnd: str) -> str:
-    """return a standardized command to all lowercase and no leading or trailing white spaces, removing any numres from the string.
-       recipes can only contain lower case letters 
+def sanitise_comand(comand: str) -> str:
+    """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
+       any numbers from the string. recipes can only contain lower case letters 
     """
-
+    return  comand.strip().lower()
+#NOTE fix this
 
 def main():
     """ for commant prompt, will take in a command and call the nessesary function for that command 
