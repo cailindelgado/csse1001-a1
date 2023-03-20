@@ -110,20 +110,23 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
     """
     shopping_list_copy = shopping_list.copy()
     counter = 0
-    for tup in shopping_list_copy:
-        for char in tup:
-            if char == ingredient_details[2]:
-                list_recipe = list(tup)
-                new_amount = list_recipe[0] + ingredient_details[0]
-                list_recipe.insert(0, new_amount)
-                list_recipe.pop(1)
-                shopping_list.insert(0, list_recipe)
-                return shopping_list
-            elif char != ingredient_details[2]:
-                counter += 1
-        if counter == len(shopping_list):
-            shopping_list.append(ingredient_details)
-            return shopping_list
+    if shopping_list == []:
+        shopping_list.append(ingredient_details)
+    else: 
+        for ingredient in shopping_list_copy:
+            for char in ingredient:
+                if char == ingredient_details[2]:
+                    list_recipe = list(ingredient)
+                    new_amount = list_recipe[0] + ingredient_details[0]
+                    list_recipe.insert(0, new_amount)
+                    list_recipe.pop(1)
+                    shopping_list.insert(0, list_recipe)
+                elif char != ingredient_details[2]:
+                    counter += 1
+
+            if counter == len(shopping_list):
+                shopping_list.append(ingredient_details)
+
 
 def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list: list) -> None:
     """Remove a certain amount of an ingredient, with the given ingredient_name, from the shopping list. If the ingredient exists in the shopping_list
@@ -132,36 +135,32 @@ def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list
     """
     #NOTE doesnt say i have to remove the item if its amount hits 0
     shopping_list_copy = shopping_list.copy()
-    for pos, tup in enumerate(shopping_list_copy):
-        if ingredient_name == tup[2] and (amount >= tup[0] or amount == tup[0]):
-            shopping_list.pop(pos)
-            return shopping_list
-        elif ingredient_name == tup[2]:
-            list_recipe = list(tup)
-            shopping_list.pop(pos)
-            new_amount = list_recipe[0] - amount
-            list_recipe.insert(0, new_amount)
-            list_recipe.pop(1)
-            shopping_list.insert(0, list_recipe)
-            return shopping_list
-        else: 
-            return None
+    if shopping_list == []
+        return None
+    else: 
+        for pos, tup in enumerate(shopping_list_copy):
+            if ingredient_name == tup[2] and (amount >= tup[0] or amount == tup[0]):
+                shopping_list.pop(pos)
+            elif ingredient_name == tup[2]:
+                list_recipe = list(tup)
+                shopping_list.pop(pos)
+                new_amount = list_recipe[0] - amount
+                list_recipe.insert(0, new_amount)
+                list_recipe.pop(1)
+                shopping_list.insert(0, list_recipe)
 
 def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, str, str]]:
     """Return a list of ingredients, (amount, measure, ingredient_name), given a list of recipes.
     """
-    #input is BROWNIE -> tuple 
-    #output is the parsed ingredients 
-    # ('chocolate brownies',
-	# '2 tbsp flaxseed,200 g dark chocolate,0.5 tsp coffee granules,80 g Nuttelex,125 g self-raising flour,70 g ground almonds,50 g cocoa powder,0.2 tsp baking powder,250 g sugar,1.5 tsp vanilla extract')
-    count = 0
     new_recipes = recipes.copy()
-    for pos, tup in enumerate(new_recipes):
-        ingredient_bits = recipes[pos][1].split(",")
-        count += 1
-        print(count)
+    shopping_list = []
+    for recipe in new_recipes:
+        ingredients_bits = recipe[1].split(",")
+        for ingredient in ingredients_bits: 
+            parsed_ingredient = parse_ingredient(ingredient)
+            add_to_shopping_list(parsed_ingredient, shopping_list)
 
-
+    return shopping_list
 
 
 def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
@@ -172,6 +171,7 @@ def sanitise_command(commnd: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing any numres from the string.
        recipes can only contain lower case letters 
     """
+
 
 def main():
     """ for commant prompt, will take in a command and call the nessesary function for that command 

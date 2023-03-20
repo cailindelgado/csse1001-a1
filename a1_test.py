@@ -1,7 +1,7 @@
 import io
 import pytest
 from constants import *
-from a1 import get_recipe_name, parse_ingredient, create_recipe, recipe_ingredients, add_recipe, find_recipe, remove_recipe, get_ingredient_amount, add_to_shopping_list, remove_from_shopping_list, generate_shopping_list
+from a1 import *
 
 def test_get_recipe_name():
     recipe = ('chocolate peanut butter banana shake', '1 large banana,2 tbsp peanut butter')
@@ -71,10 +71,10 @@ def test_get_ingredient_ammount():
     # assert output == (300, "g")
 
 def test_add_to_shopping_list():
-    ingredient_details = (1000.0, 'g', 'tofu')
+    ingredient_details = (1000.0, 'g', 'peanuts')
     shopping_list = [(300.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil')]
-    output = add_to_shopping_list(ingredient_details, shopping_list)
-    print(output)
+    add_to_shopping_list(ingredient_details, shopping_list)
+    print(shopping_list)
     
 
 def test_remove_from_shopping_list():
@@ -86,6 +86,6 @@ def test_remove_from_shopping_list():
 
 
 def test_generate_shopping_list():
-    recipes = [(BROWNIE)]
-    output = generate_shopping_list(recipes)
-    print(output)
+    recipes = [BROWNIE, PEANUT_BUTTER]
+    shopping_list = generate_shopping_list(recipes)
+    print(f"shopping list: {shopping_list}")
