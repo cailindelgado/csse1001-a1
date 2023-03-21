@@ -148,7 +148,8 @@ def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list
                 new_amount = list_recipe[0] - amount
                 list_recipe.insert(0, new_amount)
                 list_recipe.pop(1)
-                shopping_list.insert(0, list_recipe)
+                shopping_list.insert(0, tuple(list_recipe))
+        return shopping_list
 
 def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, str, str]]:
     """Return a list of ingredients, (amount, measure, ingredient_name), given a list of recipes.

@@ -81,8 +81,11 @@ def test_remove_from_shopping_list():
     amount = 500
     shopping_list = [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'), (9000.0, 'g', 'tofu'), (100.0, 'g', 'sugar'), (50.0, 'g', 'tomato sauce'), (120.0, 'g', 'rice'), (920.0, 'g', 'ice cream')]
     output = remove_from_shopping_list(ingredient_name, amount, shopping_list)
-    print(output)
-
+    # print(f"This is output 1: {output}")
+    # output_2 = remove_from_shopping_list('peanuts', 1000, shopping_list )
+    # print(f"This is output 2: {output_2}")
+    assert output == [(1000.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'), (9000.0, 'g', 'tofu'), (100.0, 'g', 'sugar'), (50.0, 'g', 'tomato sauce'), (120.0, 'g', 'rice'), (920.0, 'g', 'ice cream')]
+    # assert output == [(0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'), (9000.0, 'g', 'tofu'), (100.0, 'g', 'sugar'), (50.0, 'g', 'tomato sauce'), (120.0, 'g', 'rice'), (920.0, 'g', 'ice cream')]
 
 def test_generate_shopping_list():
     recipes = [BROWNIE, PEANUT_BUTTER]
