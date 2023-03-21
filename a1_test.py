@@ -1,4 +1,3 @@
-import io
 import pytest
 from constants import *
 from a1 import *
@@ -60,22 +59,22 @@ def test_remove_recipe():
     name = 'peanut butter'
     recipe = [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, PEANUT_BUTTER, MUNG_BEAN_OMELETTE]
     output = remove_recipe(name, recipe)
-    return output
+    # return output
     assert output == [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, MUNG_BEAN_OMELETTE]
 
 def test_get_ingredient_ammount():
     ingredient = 'peanuts' 
-    recipe = ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')
+    recipe = ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil') 
     output = get_ingredient_amount(ingredient, recipe)
-    print(output)
-    # assert output == (300, "g")
+    # print(output)
+    assert output == (300, 'g')
 
 def test_add_to_shopping_list():
     ingredient_details = (1000.0, 'g', 'peanuts')
     shopping_list = [(300.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil')]
     add_to_shopping_list(ingredient_details, shopping_list)
     print(shopping_list)
-    
+
 
 def test_remove_from_shopping_list():
     ingredient_name = 'peanuts'

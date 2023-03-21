@@ -97,7 +97,8 @@ def get_ingredient_amount(ingredient: str, recipe: tuple[str, str]) -> tuple[flo
     """
     if ingredient in recipe[1]:
         bits = recipe[1].split(" ", 2)
-        print(float(bits[0]), bits[1])
+        return float(bits[0]), bits[1]
+#BUG if the ingredient is in the middle of the recipe, program wont work
 
 def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_list: list[tuple[float, str, str] | None]) -> None:
     """Add an ingredient to the shopping list which could either be empty or contain tuples of ingredient details. If the 
@@ -119,6 +120,7 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
                     new_amount = list_recipe[0] + ingredient_details[0]
                     list_recipe.insert(0, new_amount)
                     list_recipe.pop(1)
+                    shopping_list.pop(0)
                     shopping_list.insert(0, list_recipe)
                     check = True
                 elif char != ingredient_details[2]:
@@ -164,7 +166,19 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
 def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
     """Print the given shopping list in any order you wish. **attempt to print alphabetical
     """
-    return shopping_list
+    for item in shopping_list:
+        amount_len = len(item[0])
+        measurement_len = len(item[1])
+        ingredient_len = len(item[2])
+        for ingredient_bits in item:
+            if type(ingredient_bits) == type(item[0]) and amount_len <= len(ingredient_bits):
+                amount_len = len(ingredient_bits)
+            elif type(ingredient_bits) == type(item[1]) and measurement_len < len(ingredient_bits):
+                measurement_len = len(ingredient_bits)
+            elif type(ingredient_bits) == type(item[2]) and ingredient_len < len(ingredient_bits):
+                ingredient_len = len(ingredient_bits)
+            
+            return None
 
 def sanitise_comand(comand: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
