@@ -33,8 +33,7 @@ def create_recipe() -> tuple[str, str]:
        until an empty string is returned. 
     """
     recipe_name = input("Please enter the recipe name: ")
-    recipe_list = list()
-    recipe_list.append(recipe_name)
+    recipe_list = [recipe_name]
     recipe_ingredients, recipe_final_ingredients = "", ""
     while True:
         recipe_ingredient = input("Please enter an ingredient: ")
@@ -209,7 +208,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
             elif pos == 1 and len(char) > measure_len:
                 measure_len = len(char)
             elif pos == 2 and len(char) > ingredient_len:
-                ingredient_len = len(char)
+                ingredient_len = len(char) + 1
 
     display_list = list()
     for item in shopping_list:
@@ -218,8 +217,6 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
         display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len, " "), display_list[2].ljust(ingredient_len, " ")]
         print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
         display_list.clear()
-
-
 
 def sanitise_comand(comand: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
