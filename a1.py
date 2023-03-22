@@ -206,7 +206,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
             if pos == 0 and len(str(char)) > amount_len:
                 amount_len = len(str(char))
             elif pos == 1 and len(char) > measure_len:
-                measure_len = len(char) - 1
+                measure_len = len(char)
             elif pos == 2 and len(char) > ingredient_len:
                 ingredient_len = len(char) + 1
 
