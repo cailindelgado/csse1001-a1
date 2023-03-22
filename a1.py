@@ -4,7 +4,7 @@ Semester 1, 2023
 """
 
 def num_hours() -> float:
-    return 9.42477796077
+    return 11.42477796077
 
 # Fill these in with your details
 __author__ = "Cailin H Delgado"
@@ -12,8 +12,6 @@ __email__ = "c.delgado@uqconnect.edu.au"
 __date__ = "03/03/2023"
 
 from constants import *
-
-# Write your functions here
 
 def get_recipe_name(recipe: tuple([str, str])) -> str:
     """Returns the name of the recipe.
@@ -167,28 +165,58 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
 def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
     """Print the given shopping list in any order you wish. **attempt to print alphabetical
     """
-    for item in shopping_list:
-        amount_len = len(item[0])
-        measurement_len = len(item[1])
-        ingredient_len = len(item[2])
-        for ingredient_bits in item:
-            if type(ingredient_bits) == type(item[0]) and amount_len <= len(ingredient_bits):
-                amount_len = len(ingredient_bits)
-            elif type(ingredient_bits) == type(item[1]) and measurement_len < len(ingredient_bits):
-                measurement_len = len(ingredient_bits)
-            elif type(ingredient_bits) == type(item[2]) and ingredient_len < len(ingredient_bits):
-                ingredient_len = len(ingredient_bits)
+    # for item in shopping_list:
+    #     amount_len = len(item[0])
+    #     measurement_len = len(item[1])
+    #     ingredient_len = len(item[2])
+    #     for ingredient_bits in item:
+    #         if type(ingredient_bits) == type(item[0]) and amount_len <= len(ingredient_bits):
+    #             amount_len = len(ingredient_bits)
+    #         elif type(ingredient_bits) == type(item[1]) and measurement_len < len(ingredient_bits):
+    #             measurement_len = len(ingredient_bits)
+    #         elif type(ingredient_bits) == type(item[2]) and ingredient_len < len(ingredient_bits):
+    #             ingredient_len = len(ingredient_bits)
             
-            return None
+    #         return None
+
+    #right alilgnment function is .rjust(number, spcace)
+    #left alignment function is .ljust(number, space)
+    
+    sep = "|"
+    for pos, ingredient in enumerate(shopping_list):
+        print(sep, ingredient[pos].rjust(" ", 1)) 
+
+
 
 def sanitise_comand(comand: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
        any numbers from the string. recipes can only contain lower case letters 
     """
-    return  comand.strip().lower()
-#NOTE fix this
+    stripped_comand = comand.strip()
+    comand_list = list()
+    final_comand = ""
 
-def main():
+
+    if 'rm -i' in stripped_comand.lower():  
+        for char in stripped_comand:
+            if char.isupper():
+                comand_list.append(char.lower())
+            elif char.islower() or ord(char) == (32 or 45) or char.isnumeric():
+                comand_list.append(char)
+    else:
+        for char in stripped_comand:
+            if char.isupper():
+                comand_list.append(char.lower())
+            elif char.islower() or char.isspace():
+                comand_list.append(char) 
+    
+    for indx in range(len(comand_list)):
+        final_comand += comand_list[indx]
+
+    return final_comand.strip()
+
+
+def main(): 
     """ for commant prompt, will take in a command and call the nessesary function for that command 
         and execute it.
     """
@@ -201,6 +229,45 @@ def main():
         PEANUT_BUTTER, 
         MUNG_BEAN_OMELETTE
     ]
+
+    while True: 
+        user_comand = input('Please enter a command: ')
+        comand = sanitise_comand(user_comand)
+        if comand == 'h': #Help 
+            print(HELP_TEXT)
+        elif comand == 'q': #Quit
+            break
+        elif comand == 'g':
+#NOTE comand g is the same as ls -s
+            pass
+        elif comand == 'mkrec': #make recipe / create recipe
+            recipe_collection.append(create_recipe)
+        elif 'add' in comand:
+#NOTE add {recipe}: adds a recipe to the collection.
+            # add_recipe(new_recipe='{new recipe}', recipe_collection)
+            pass
+        elif '-i' not in comand:
+#NOTE removes ingredient from shopping list
+#NOTE rm -i {ingredient_name} {amount}: removes ingredient from shopping list.
+            remove_from_shopping_list()
+            pass
+        elif 'rm' in comand:
+# rm {recipe}: removes a recipe from the collection.
+            recipe_collection.pop()#NOTE put something here
+            pass
+        elif comand == 'ls': #list all recipes in shopping cart
+            generate_shopping_list(recipe_collection)
+        elif comand == 'ls -a': #List all available recipes in cook book
+            print(recipe_collection)
+        elif comand == 'ls -s':
+            pass
+#NOTE havent finished display ingredients yet
+#NOTE ls -s: display shopping list.
+
+
+"""
+
+"""
 
 if __name__ == "__main__":
     main()
