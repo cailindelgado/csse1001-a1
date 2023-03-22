@@ -105,26 +105,55 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
        It is assumed that the measure is consistent for all ingredients of the same name. In addition, ingredient_details contains 
        all the information about the ingredient being added to the shopping list. Also, the order doesn't matter. 
     """
+
     shopping_list_copy = shopping_list.copy()
-    check = True
+    check = 0
     if shopping_list == []:
         shopping_list.append(ingredient_details)
-    else: 
-        for ingredient in shopping_list_copy:
-            for char in ingredient:
-                if char == ingredient_details[2]:
-                    list_recipe = list(ingredient)
-                    new_amount = list_recipe[0] + ingredient_details[0]
-                    list_recipe.insert(0, new_amount)
-                    list_recipe.pop(1)
-                    shopping_list.pop(0)
-                    shopping_list.insert(0, list_recipe)
-                    check = True
-                elif char != ingredient_details[2]:
-                    check = False
 
-        if check == False:
-            shopping_list.append(ingredient_details)
+    for pos, ingredient in enumerate(shopping_list_copy):
+        for bit in ingredient:
+            if bit == ingredient_details[2]:
+                list_recipe = list(ingredient)
+                new_amount = list_recipe[0] + ingredient_details[0]
+                list_recipe.insert(0, new_amount)
+                list_recipe.pop(1)
+                shopping_list.pop(pos)
+                shopping_list.insert(pos, tuple(list_recipe))
+                return 
+        
+        if ingredient[2] != ingredient_details[2]:
+            check += 1
+
+    if check == len(shopping_list):
+        shopping_list.append(ingredient_details)
+
+"""
+    if shopping_list == []:
+        shopping_list.append(ingredient_details)
+        return
+
+    index = get_index(ingredient_details, shopping_list)
+    if index == -1:
+        shopping_list.append(ingredient_details)
+        return 
+
+    new_ingredient = (shopping_list[index][0] + ingredient_details[0], ingredient_details[1], ingredient_details[2])
+    shopping_list[index] = new_ingredient
+    return
+
+
+def get_index(ingredient_details: tuple[float, str, str], shopping_list: list[tuple[float, str, str] | None]) -> int:
+    index = -1
+    for pos, ingredient in enumerate(shopping_list):
+        if ingredient_details[2] == ingredient[2]:  # name matches
+            index = pos
+            break
+    return index
+"""
+    
+
+
 
 def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list: list) -> None:
     """Remove a certain amount of an ingredient, with the given ingredient_name, from the shopping list. If the ingredient exists in the shopping_list
