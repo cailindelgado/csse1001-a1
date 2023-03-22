@@ -166,7 +166,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
 
     >>> display_ingredients([(1.0, 'large', 'banana'), (0.5, 'cup', 'ice'),])
         | 1.0 | large | banana |
-        | 0.5 | cup | ice |
+        | 0.5 | cup   | ice    |
     >>> display_ingredients([(1.0, 'large', 'banana'),
             (2.0, 'tbsp', 'peanut butter'),
             (2.0, 'pitted', 'dates'),
@@ -208,7 +208,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
             elif pos == 1 and len(char) > measure_len:
                 measure_len = len(char)
             elif pos == 2 and len(char) > ingredient_len:
-                ingredient_len = len(char) + 1
+                ingredient_len = len(char)
 
     display_list = list()
     for item in shopping_list:

@@ -94,14 +94,15 @@ def test_generate_shopping_list():
 
 def test_display_ingredients():
     # shopping_list = [(1000.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'), (9000.0, 'g', 'tofu'), (100.0, 'g', 'sugar'), (50.0, 'g', 'tomato sauce'), (120.0, 'g', 'rice'), (920.0, 'g', 'ice cream')]
-    shopping_list = [(1.0, 'large', 'banana'),
-                (2.0, 'tbsp', 'peanut butter'),
-                (2.0, 'pitted', 'dates'),
-                (1.0, 'tbsp', 'cacao powder'),
-                (240.0, 'ml', 'almond milk'),
-                (0.5, 'cup', 'ice'),
-                (1.0, 'tbsp', 'cocao nibs'),
-                (1.0, 'tbsp', 'flax seed')]
+    # shopping_list = [(1.0, 'large', 'banana'),
+    #             (2.0, 'tbsp', 'peanut butter'),
+    #             (2.0, 'pitted', 'dates'),
+    #             (1.0, 'tbsp', 'cacao powder'),
+    #             (240.0, 'ml', 'almond milk'),
+    #             (0.5, 'cup', 'ice'),
+    #             (1.0, 'tbsp', 'cocao nibs'),
+    #             (1.0, 'tbsp', 'flax seed')]
+    shopping_list = [(1.0, 'large', 'banana'), (0.5, 'cup', 'ice')]
     output = display_ingredients(shopping_list)
     # print(display_ingredients(shopping_list=[BROWNIE]))
     print(output)
