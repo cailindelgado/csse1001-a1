@@ -164,27 +164,60 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
 
 def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
     """Print the given shopping list in any order you wish. **attempt to print alphabetical
-    """
-    # for item in shopping_list:
-    #     amount_len = len(item[0])
-    #     measurement_len = len(item[1])
-    #     ingredient_len = len(item[2])
-    #     for ingredient_bits in item:
-    #         if type(ingredient_bits) == type(item[0]) and amount_len <= len(ingredient_bits):
-    #             amount_len = len(ingredient_bits)
-    #         elif type(ingredient_bits) == type(item[1]) and measurement_len < len(ingredient_bits):
-    #             measurement_len = len(ingredient_bits)
-    #         elif type(ingredient_bits) == type(item[2]) and ingredient_len < len(ingredient_bits):
-    #             ingredient_len = len(ingredient_bits)
-            
-    #         return None
 
-    #right alilgnment function is .rjust(number, spcace)
-    #left alignment function is .ljust(number, space)
-    
-    sep = "|"
-    for pos, ingredient in enumerate(shopping_list):
-        print(sep, ingredient[pos].rjust(" ", 1)) 
+    >>> display_ingredients([(1.0, 'large', 'banana'), (0.5, 'cup', 'ice'),])
+        | 1.0 | large | banana |
+        | 0.5 | cup | ice |
+    >>> display_ingredients([(1.0, 'large', 'banana'),
+            (2.0, 'tbsp', 'peanut butter'),
+            (2.0, 'pitted', 'dates'),
+            (1.0, 'tbsp', 'cacao powder'),
+            (240.0, 'ml', 'almond milk'),
+            (0.5, 'cup', 'ice'),
+            (1.0, 'tbsp', 'cocao nibs'),
+            (1.0, 'tbsp', 'flax seed')])
+        |   1.0 | large  | banana         |
+        |   2.0 | tbsp   | peanut butter  |
+        |   2.0 | pitted | dates          |
+        |   1.0 | tbsp   | cacao powder   |
+        | 240.0 | ml     | almond milk    |
+        |   0.5 | cup    | ice            |
+        |   1.0 | tbsp   | cocao nibs     |
+        |   1.0 | tbsp   | flax seed      |
+        Here is the output again with visile spaces.
+        |␣␣␣1.0␣|␣␣large␣␣|␣banana␣␣␣␣␣␣␣␣␣|
+        |␣␣␣2.0␣|␣␣tbsp␣␣␣|␣peanut␣butter␣␣|
+        |␣␣␣2.0␣|␣pitted␣␣|␣dates␣␣␣␣␣␣␣␣␣␣|
+        |␣␣␣1.0␣|␣␣tbsp␣␣␣|␣cacao␣powder␣␣␣|
+        |␣240.0␣|␣␣␣ml␣␣␣␣|␣almond␣milk␣␣␣␣|
+        |␣␣␣0.5␣|␣␣␣cup␣␣␣|␣ice␣␣␣␣␣␣␣␣␣␣␣␣|
+        |␣␣␣1.0␣|␣␣tbsp␣␣␣|␣cocao␣nibs␣␣␣␣␣|
+        |␣␣␣1.0␣|␣␣tbsp␣␣␣|␣flax␣seed␣␣␣␣␣␣|
+    """
+    """
+    1. loop through shopping list, and find biggest amount, measurement, and ingredient
+    2. left, right, center allign each bit and print with '|'
+    """
+    #NOTE need max length of amonut, measurement, ingredient in order to line everything up 
+    measure_len = 0
+    amount_len = 0
+    ingredient_len = 0
+    for item in shopping_list:
+        for pos, char in enumerate(item):
+            if pos == 0 and len(str(char)) > amount_len:
+                amount_len = len(str(char))
+            elif pos == 1 and len(char) > measure_len:
+                measure_len = len(char)
+            elif pos == 2 and len(char) > ingredient_len:
+                ingredient_len = len(char)
+
+    display_list = list()
+    for item in shopping_list:
+        for char in item:
+            display_list.append(char)
+        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len, " "), display_list[2].ljust(ingredient_len, " ")]
+        print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
+        display_list.clear()
 
 
 
