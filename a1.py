@@ -154,7 +154,7 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
     """Return a list of ingredients, (amount, measure, ingredient_name), given a list of recipes.
     """
     new_recipes = recipes.copy()
-    shopping_list = []
+    # shopping_list = []
     for recipe in new_recipes:
         ingredients_bits = recipe[1].split(",")
         for ingredient in ingredients_bits: 
@@ -253,7 +253,7 @@ def sanitise_command(command: str) -> str:
     for char in stripped_command:
         if char.isupper():
             command_list.append(char.lower())
-        elif char.islower() or char.isspace():
+        elif char.islower() or char.isspace() or ord(char) == 45:
             command_list.append(char) 
 
     for indx in range(len(command_list)):
@@ -282,15 +282,16 @@ def main():
         command = sanitise_command(user_command)
         if command == 'h': #Help 
             print(HELP_TEXT)
-        elif command.startswith('mkrec'):   #make recipe / create recipe
-            create_recipe()
-            recipe_collection.append(create_recipe)
+        elif command.startswith('mkrec'):   #make recipe / create recipe and adds it to collection
+            new_recipe = create_recipe()
+            recipe_collection.append(new_recipe)
         elif command.startswith('add'):     #adds {recipe}: to the recipe collection, adds recipe from recipe collection
             recipe = command[4:-1].replace(" ", "_")
             add_recipe(recipe, recipe_collection)
+              
             #NOTE add {recipe}: adds a recipe to the collection.
             # add_recipe(new_recipe='{new recipe}', recipe_collection)
-                                    #NOTE in the cookbook? would it be a giant if statement
+            #NOTE in the cookbook? would it be a giant if statement
         elif command.startswith('rm'):
             command_bits = command.split(" ")
             if command_bits[1] == "-i":     # remove ingredient -> rm -i command
@@ -304,20 +305,27 @@ def main():
                 recipe_collection.pop(indx)
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(recipe))
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(find_recipe(recipe_name, recipe_collection)))
-        elif command.startswith('ls'):      #list all recipes in shopping cart
-            command_bits = command.split(" ")
-            if command_bits[1] == '-a':     #ls -a list all available recipes
-                for indx in range(len(recipe_collection)):
-                    print(recipe_collection[indx][0])
-            elif command_bits[1] == '-s':   #ls -s display shopping list
-                display_ingredients(shopping_list)
-            else:                           #ls list all recipes in shopping cart #NOTE is the shopping cart the shopping list or the recipe collection???
+        elif command[:5] == 'ls -a': #ls -a list all available recipes
+            for indx in range(len(recipe_collection)):
+                print(recipe_collection[indx][0])
+        elif command[:5] == 'ls -s': #ls -s display shopping list
+            display_ingredients(shopping_list)
+        elif command[:2] == 'ls':     #ls list all recipes in shopping cart #NOTE is the shopping cart the shopping list or the recipe collection???
+            if shopping_list == []:
+                print('No recipe in mealplan yet.')
+            else:
                 print(shopping_list)
+       
+       
         elif command == 'g':                #generates shopping list for display_ingredients to display from
-            generate_shopping_list()
+            generate_shopping_list(recipe_collection) #NOTE is broken fix now 
         elif command == 'q':                #Quit
             break
+        else:
+            print('if you enter H or h you will get help')
 
+#NOTE List of recipes, cookbook, and recipe collection are the same thing.
+#NOTE Shopping list and cart are the same thing pretty much, but you'd find that the rm and rm -i commands refer to different lists. Just keep that in mind considering how many lists you want to make. 
 
 if __name__ == "__main__":
     main()
