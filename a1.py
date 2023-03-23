@@ -154,7 +154,7 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
     """Return a list of ingredients, (amount, measure, ingredient_name), given a list of recipes.
     """
     new_recipes = recipes.copy()
-    # shopping_list = []
+    shopping_list = []
     for recipe in new_recipes:
         ingredients_bits = recipe[1].split(",")
         for ingredient in ingredients_bits: 
