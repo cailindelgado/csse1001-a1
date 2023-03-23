@@ -61,7 +61,6 @@ def add_recipe(new_recipe: tuple[str, str], recipes: list[tuple[str, str]]):
     """Add a given recipe, new_recipe, into the list of recipes.
        Hint: this function doesn't return anything  """
     recipes.append(new_recipe)
-#NOTE test this func
 
 def find_recipe(recipe_name: str, recipes: list[tuple[str, str]]) -> tuple[str, str] | None:
     """This function find and returns a recipe with a given recipe_name if it cannot be found returns None 
@@ -138,18 +137,18 @@ def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list
     shopping_list_copy = shopping_list.copy()
     if shopping_list == []:
         return None
-    else: 
-        for pos, item in enumerate(shopping_list_copy):
-            if ingredient_name == item[2] and (amount >= item[0] or amount == item[0]):
-                shopping_list.pop(pos)
-            elif ingredient_name == item[2]:
-                list_recipe = list(item)
-                shopping_list.pop(pos)
-                new_amount = list_recipe[0] - amount
-                list_recipe.insert(0, new_amount)
-                list_recipe.pop(1)
-                shopping_list.insert(0, tuple(list_recipe))
-        return shopping_list
+    
+    for pos, item in enumerate(shopping_list_copy):
+        if ingredient_name == item[2] and (amount >= item[0] or amount == item[0]):
+            shopping_list.pop(pos)
+        elif ingredient_name == item[2]:
+            list_recipe = list(item)
+            shopping_list.pop(pos)
+            new_amount = list_recipe[0] - amount
+            list_recipe.insert(0, new_amount)
+            list_recipe.pop(1)
+            shopping_list.insert(0, tuple(list_recipe))
+    return shopping_list
 
 def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, str, str]]:
     """Return a list of ingredients, (amount, measure, ingredient_name), given a list of recipes.
@@ -161,7 +160,6 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
         for ingredient in ingredients_bits: 
             parsed_ingredient = parse_ingredient(ingredient)
             add_to_shopping_list(parsed_ingredient, shopping_list)
-
     return shopping_list
 
 def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
@@ -212,16 +210,34 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
             elif pos == 2 and len(char) > ingredient_len:
                 ingredient_len = len(char) # + 1
 
+    print(f"measure_len {measure_len}")
+    print(f"amount_len {amount_len}")
+    print(f"ingredient_len {ingredient_len}")
+
     display_list = list()
     for item in shopping_list:
         for bit in item:
             display_list.append(bit)
-        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len, " "), display_list[2].ljust(ingredient_len, " ")]
-        print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
+        
+        center_column_space = measure_len + 3 - len(display_list[1])
+        left_side = center_column_space // 2
+        right_side = center_column_space - left_side
+        
+        spaces_on_left = left_side * " "
+        spaces_on_right = right_side * " "
+
+        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1], display_list[2].ljust(ingredient_len, " ")]
+        print(f"| {display_row[0]} |{spaces_on_left}{display_row[1]}{spaces_on_right}| {display_row[2]} |")
         display_list.clear()
 
 
-
+    #     display_list = list()
+    # for item in shopping_list:
+    #     for bit in item:
+    #         display_list.append(bit)
+    #     display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len, " "), display_list[2].ljust(ingredient_len, " ")]
+    #     print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
+    #     display_list.clear()
 
 def sanitise_comand(comand: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
@@ -231,25 +247,23 @@ def sanitise_comand(comand: str) -> str:
     comand_list = list()
     final_comand = ""
 
-
     if 'rm -i' in stripped_comand.lower():  
         for char in stripped_comand:
             if char.isupper():
                 comand_list.append(char.lower())
             elif char.islower() or ord(char) == (32 or 45) or char.isnumeric():
                 comand_list.append(char)
-    else:
-        for char in stripped_comand:
-            if char.isupper():
-                comand_list.append(char.lower())
-            elif char.islower() or char.isspace():
-                comand_list.append(char) 
+
+    for char in stripped_comand:
+        if char.isupper():
+            comand_list.append(char.lower())
+        elif char.islower() or char.isspace():
+            comand_list.append(char) 
     
     for indx in range(len(comand_list)):
         final_comand += comand_list[indx]
 
     return final_comand.strip()
-
 
 def main(): 
     """ for commant prompt, will take in a command and call the nessesary function for that command 
@@ -298,11 +312,6 @@ def main():
             pass
 #NOTE havent finished display ingredients yet
 #NOTE ls -s: display shopping list.
-
-
-"""
-
-"""
 
 if __name__ == "__main__":
     main()
