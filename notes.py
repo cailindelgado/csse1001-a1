@@ -57,3 +57,29 @@ def sanitise_comand(comand: str) -> str:
         final_comand += comand_list[indx]
 
     return final_comand.strip()
+
+
+
+"""
+shopping_list_copy = shopping_list.copy()
+    check = 0
+    if shopping_list == []:
+        shopping_list.append(ingredient_details)
+
+    for pos, ingredient in enumerate(shopping_list_copy):
+        for ingredient_bit in ingredient:
+            if ingredient_bit == ingredient_details[2]:
+                list_recipe = list(ingredient)
+                new_amount = list_recipe[0] + ingredient_details[0]
+                list_recipe.insert(0, new_amount)
+                list_recipe.pop(1)
+                shopping_list.pop(pos)
+                shopping_list.insert(pos, tuple(list_recipe))
+                return 
+        
+        if ingredient[2] != ingredient_details[2]:
+            check += 1
+
+    if check == len(shopping_list):
+        shopping_list.append(ingredient_details)
+"""

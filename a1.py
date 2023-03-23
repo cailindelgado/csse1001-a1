@@ -106,29 +106,6 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
        all the information about the ingredient being added to the shopping list. Also, the order doesn't matter. 
     """
 
-    shopping_list_copy = shopping_list.copy()
-    check = 0
-    if shopping_list == []:
-        shopping_list.append(ingredient_details)
-
-    for pos, ingredient in enumerate(shopping_list_copy):
-        for bit in ingredient:
-            if bit == ingredient_details[2]:
-                list_recipe = list(ingredient)
-                new_amount = list_recipe[0] + ingredient_details[0]
-                list_recipe.insert(0, new_amount)
-                list_recipe.pop(1)
-                shopping_list.pop(pos)
-                shopping_list.insert(pos, tuple(list_recipe))
-                return 
-        
-        if ingredient[2] != ingredient_details[2]:
-            check += 1
-
-    if check == len(shopping_list):
-        shopping_list.append(ingredient_details)
-
-"""
     if shopping_list == []:
         shopping_list.append(ingredient_details)
         return
@@ -150,10 +127,6 @@ def get_index(ingredient_details: tuple[float, str, str], shopping_list: list[tu
             index = pos
             break
     return index
-"""
-    
-
-
 
 def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list: list) -> None:
     """Remove a certain amount of an ingredient, with the given ingredient_name, from the shopping list. If the ingredient exists in the shopping_list
@@ -222,28 +195,23 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
         |␣␣␣1.0␣|␣␣tbsp␣␣␣|␣cocao␣nibs␣␣␣␣␣|
         |␣␣␣1.0␣|␣␣tbsp␣␣␣|␣flax␣seed␣␣␣␣␣␣|
     """
-    """
-    1. loop through shopping list, and find biggest amount, measurement, and ingredient
-    2. left, right, center allign each bit and print with '|'
-    """
-    #NOTE need max length of amonut, measurement, ingredient in order to line everything up 
-    measure_len = 0
     amount_len = 0
+    measure_len = 0
     ingredient_len = 0
     for item in shopping_list:
-        for pos, char in enumerate(item):
-            if pos == 0 and len(str(char)) > amount_len:
-                amount_len = len(str(char))
-            elif pos == 1 and len(char) > measure_len:
-                measure_len = len(char) #+ 2
-            elif pos == 2 and len(char) > ingredient_len:
-                ingredient_len = len(char) # + 1
+        for pos, bit in enumerate(item):
+            if pos == 0 and len(str(bit)) > amount_len:
+                amount_len = len(str(bit))
+            elif pos == 1 and len(bit) > measure_len:
+                measure_len = len(bit)
+            elif pos == 2 and len(bit) > ingredient_len:
+                ingredient_len = len(bit)
 
     display_list = list()
     for item in shopping_list:
-        for char in item:
-            display_list.append(char)
-        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len, " "), display_list[2].ljust(ingredient_len, " ")]
+        for bit in item:
+            display_list.append(bit)
+        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len + 1, " "), display_list[2].ljust(ingredient_len, " ")]
         print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
         display_list.clear()
 
