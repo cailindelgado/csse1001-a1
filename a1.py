@@ -235,31 +235,31 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
     #     print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
     #     display_list.clear()
 
-def sanitise_comand(comand: str) -> str:
+def sanitise_command(command: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
        any numbers from the string. recipes can only contain lower case letters 
     """
-    stripped_comand = comand.strip()
-    comand_list = list()
-    final_comand = ""
+    stripped_command = command.strip()
+    command_list = list()
+    final_command = ""
 
-    if 'rm -i' in stripped_comand.lower():  
-        for char in stripped_comand:
+    if 'rm -i' in stripped_command.lower():  
+        for char in stripped_command:
             if char.isupper():
-                comand_list.append(char.lower())
+                command_list.append(char.lower())
             elif char.islower() or ord(char) == (32 or 45) or char.isnumeric():
-                comand_list.append(char)
+                command_list.append(char)
 
-    for char in stripped_comand:
+    for char in stripped_command:
         if char.isupper():
-            comand_list.append(char.lower())
+            command_list.append(char.lower())
         elif char.islower() or char.isspace():
-            comand_list.append(char) 
-    
-    for indx in range(len(comand_list)):
-        final_comand += comand_list[indx]
+            command_list.append(char) 
 
-    return final_comand.strip()
+    for indx in range(len(command_list)):
+        final_command += command_list[indx]
+
+    return final_command.strip()
 
 def main(): 
     """ for commant prompt, will take in a command and call the nessesary function for that command 
@@ -275,39 +275,49 @@ def main():
         MUNG_BEAN_OMELETTE
     ]
 
+    shopping_list = []
+
     while True: 
-        user_comand = input('Please enter a command: ')
-        comand = sanitise_comand(user_comand)
-        if comand == 'h': #Help 
+        user_command = input('Please enter a command: ')
+        command = sanitise_command(user_command)
+        if command == 'h': #Help 
             print(HELP_TEXT)
-        elif comand == 'q': #Quit
-            break
-        elif comand == 'g':
-#NOTE comand g is the same as ls -s
-            pass
-        elif comand == 'mkrec': #make recipe / create recipe
+        elif command.startswith('mkrec'):   #make recipe / create recipe
+            create_recipe()
             recipe_collection.append(create_recipe)
-        elif 'add' in comand:
-#NOTE add {recipe}: adds a recipe to the collection.
+        elif command.startswith('add'):     #adds {recipe}: to the recipe collection, adds recipe from recipe collection
+            recipe = command[4:-1].replace(" ", "_")
+            add_recipe(recipe, recipe_collection)
+            #NOTE add {recipe}: adds a recipe to the collection.
             # add_recipe(new_recipe='{new recipe}', recipe_collection)
-            pass
-        elif '-i' not in comand:
-#NOTE removes ingredient from shopping list
-#NOTE rm -i {ingredient_name} {amount}: removes ingredient from shopping list.
-            remove_from_shopping_list()
-            pass
-        elif 'rm' in comand:
-# rm {recipe}: removes a recipe from the collection.
-            recipe_collection.pop()#NOTE put something here
-            pass
-        elif comand == 'ls': #list all recipes in shopping cart
-            generate_shopping_list(recipe_collection)
-        elif comand == 'ls -a': #List all available recipes in cook book
-            print(recipe_collection)
-        elif comand == 'ls -s':
-            pass
-#NOTE havent finished display ingredients yet
-#NOTE ls -s: display shopping list.
+                                    #NOTE in the cookbook? would it be a giant if statement
+        elif command.startswith('rm'):
+            command_bits = command.split(" ")
+            if command_bits[1] == "-i":     # remove ingredient -> rm -i command
+                quantity = command_bits[len(command_bits - 1)]
+                ingredient_name = "".join(command_bits[3:-1])
+                remove_from_shopping_list(ingredient_name, quantity, shopping_list)
+            else:                           # rm {recipe}: removes a recipe from the collection.
+                recipe_name = command[2:].strip()
+                recipe = find_recipe(recipe_name, recipe_collection)
+                indx = recipe_collection.index(recipe)
+                recipe_collection.pop(indx)
+                #couldnt i just do recipe_collection.pop(recipe_collection.index(recipe))
+                #couldnt i just do recipe_collection.pop(recipe_collection.index(find_recipe(recipe_name, recipe_collection)))
+        elif command.startswith('ls'):      #list all recipes in shopping cart
+            command_bits = command.split(" ")
+            if command_bits[1] == '-a':     #ls -a list all available recipes
+                for indx in range(len(recipe_collection)):
+                    print(recipe_collection[indx][0])
+            elif command_bits[1] == '-s':   #ls -s display shopping list
+                display_ingredients(shopping_list)
+            else:                           #ls list all recipes in shopping cart #NOTE is the shopping cart the shopping list or the recipe collection???
+                print(shopping_list)
+        elif command == 'g':                #generates shopping list for display_ingredients to display from
+            generate_shopping_list()
+        elif command == 'q':                #Quit
+            break
+
 
 if __name__ == "__main__":
     main()
