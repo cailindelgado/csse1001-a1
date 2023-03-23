@@ -113,6 +113,14 @@ def test_display_ingredients():
     output = display_ingredients(shopping_list)
     # print(display_ingredients(shopping_list=[BROWNIE]))
     print(output)
+    # assert output == '| 240.0 |   ml    | almond milk    |\n'\
+    #         '|   1.0 |  large  | banana         |\n'\
+    #         '|   1.0 |  tbsp   | cacao powder   |\n'\
+    #         '|   1.0 |  tbsp   | cocao nibs     |\n'\
+    #         '|   2.0 | pitted  | dates          |\n'\
+    #         '|   1.0 |  tbsp   | flax seed      |\n'\
+    #         '|   0.5 |   cup   | ice            |\n'\
+    #         '|   2.0 |  tbsp   | peanut butter  |\n'\
 
 def test_sanitise_command():
     comand = "rM -I peAnut butTer 300  6"

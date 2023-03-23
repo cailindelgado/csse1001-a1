@@ -214,7 +214,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
     for item in shopping_list:
         for char in item:
             display_list.append(char)
-        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len + 1, " "), display_list[2].ljust(ingredient_len + 1, " ")]
+        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len + 2, " "), display_list[2].ljust(ingredient_len + 1, " ")]
         print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
         display_list.clear()
 
