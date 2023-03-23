@@ -63,11 +63,11 @@ def test_remove_recipe():
     assert output == [CHOCOLATE_PEANUT_BUTTER_SHAKE, BROWNIE, SEITAN, CINNAMON_ROLLS, MUNG_BEAN_OMELETTE]
 
 def test_get_ingredient_ammount():
-    ingredient = 'peanuts' 
+    ingredient = 'salt' 
     recipe = ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil') 
     output = get_ingredient_amount(ingredient, recipe)
-    # print(output)
-    assert output == (300, 'g')
+    print(output)
+    assert output == (0.5, 'tsp')
 
 def test_add_to_shopping_list():
     ingredient_details = (1000.0, 'g', 'peanuts')
