@@ -4,7 +4,7 @@ Semester 1, 2023
 """
 
 def num_hours() -> float:
-    return 11.42477796077
+    return 13.42477796077
 
 # Fill these in with your details
 __author__ = "Cailin H Delgado"
@@ -118,7 +118,6 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
     new_ingredient = (shopping_list[index][0] + ingredient_details[0], ingredient_details[1], ingredient_details[2])
     shopping_list[index] = new_ingredient
     return
-
 
 def get_index(ingredient_details: tuple[float, str, str], shopping_list: list[tuple[float, str, str] | None]) -> int:
     index = -1
