@@ -222,7 +222,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
         spaces_on_left = left_side * " "
         spaces_on_right = right_side * " "
 
-        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1], display_list[2].ljust(ingredient_len, " ")]
+        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1], display_list[2].ljust(ingredient_len + 1, " ")]
         print(f"| {display_row[0]} |{spaces_on_left}{display_row[1]}{spaces_on_right}| {display_row[2]} |")
         display_list.clear()
 
