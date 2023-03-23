@@ -92,9 +92,16 @@ def get_ingredient_amount(ingredient: str, recipe: tuple[str, str]) -> tuple[flo
     """Return the amount and measure of a certain ingredient as a tuple[float, str] given an ingredient name 
        as a str and a recipe. If the ingredient doesnt exist then nothing happens
     """
+    
+    # if ingredient in recipe[1]:
+    #     bits = recipe[1].split(" ", 2)
+    #     return float(bits[0]), bits[1]
     if ingredient in recipe[1]:
-        bits = recipe[1].split(" ", 2)
-        return float(bits[0]), bits[1]
+        for ingredient_bit in parse_ingredient(ingredient):
+            if ingredient == ingredient_bit[2]:
+                return ingredient_bit[0], ingredient_bit[1]
+
+
 #BUG if the ingredient is in the middle of the recipe, program wont work
 
 def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_list: list[tuple[float, str, str] | None]) -> None:
@@ -211,12 +218,12 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
                 ingredient_len = len(char) # + 1
 
     display_list = list()
-    for item in shopping_list:
-        for char in item:
-            display_list.append(char)
-        display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len + 2, " "), display_list[2].ljust(ingredient_len + 1, " ")]
-        print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
-        display_list.clear()
+    # for item in shopping_list:
+    #     for char in item:
+    #         display_list.append(char)
+    #     display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len + 2, " "), display_list[2].ljust(ingredient_len + 1, " ")]
+    #     print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
+    #     display_list.clear()
 
 
 
