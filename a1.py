@@ -37,7 +37,7 @@ def create_recipe() -> tuple[str, str]:
     recipe_ingredients, recipe_final_ingredients = "", ""
     while True:
         recipe_ingredient = input("Please enter an ingredient: ")
-        if recipe_ingredient.strip() == " ":
+        if recipe_ingredient == "" or recipe_ingredient == " ":
            recipe_final_ingredients = recipe_ingredients[:-1] 
            break
         else:
