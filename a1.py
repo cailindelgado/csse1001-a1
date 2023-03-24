@@ -308,7 +308,7 @@ def main():
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(recipe))
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(find_recipe(recipe_name, recipe_collection)))
         elif command[:5] == 'ls -a': #ls -a list all available recipes
-            for indx in range(len(meal_plan)):
+            for indx in range(len(recipe_collection)):
                 print(recipe_collection[indx][0])
         elif command[:5] == 'ls -s': #ls -s display shopping list
             display_ingredients(shopping_list)
