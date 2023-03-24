@@ -15,13 +15,24 @@ from constants import *
 
 def get_recipe_name(recipe: tuple([str, str])) -> str:
     """Returns the name of the recipe.
-        get_recipe_name('chocco banana milkshake', '1.3 bananas')
-    >> 'chocco banana milkshake'
+        Example:
+        >>> get_recipe_name(('chocolate peanut butter banana shake',
+        '1 large banana,240 ml almond milk'))
+        'chocolate peanut butter banana shake'
+
+        >>> get_recipe_name(('cinnamon rolls',
+        '480 ml almond milk,170 g Nuttelex'))
+        'cinnamon rolls'
     """
     return recipe[0]
 
 def parse_ingredient(raw_ingredient_detail: str) -> tuple[float, str, str]:
     """Returns the ingredient breakdown from the details amount, measure and ingredient.
+        Example:
+        >>> parse_ingredient('0.5 tsp coffee granules')
+        (0.5, 'tsp', 'coffee granules')
+        >>> parse_ingredient('1 large banana')
+        (1.0, 'large', 'banana')
     """
     bits = raw_ingredient_detail.split(" ")
     details_of_ingredients = (float(bits[0]), bits[1], " ".join(bits[2:])) 
@@ -31,6 +42,14 @@ def create_recipe() -> tuple[str, str]:
     """Returns the recipe in the tuple[str, str] format after a series of prompting. 
        The recipe name is prompted first followed by continuous ingredient prompting
        until an empty string is returned. 
+       Example:
+        >>> create_recipe()
+        Please enter the recipe name: peanut butter
+        Please enter an ingredient: 300 g peanuts
+        Please enter an ingredient: 0.5 tsp salt
+        Please enter an ingredient: 2 tsp oil
+        Please enter an ingredient:
+        ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')
     """
     recipe_name = input("Please enter the recipe name: ")
     recipe_list = [recipe_name.strip()]
@@ -47,8 +66,12 @@ def create_recipe() -> tuple[str, str]:
     return tuple(recipe_list)
 
 def recipe_ingredients(recipe: tuple[str, str]) -> tuple[tuple[float, str, str]]:
-    """Returns the ingredients of a recipe amount, measure and ingredient. This transforms 
-       a given recipe from the string form into the tuples form.
+    """Returns the ingredients of a recipe amount, measure and ingredient. 
+        This transforms a given recipe from the string form into the tuples form.
+    Example:
+        >>> recipe_ingredients(('peanut butter',
+        '300 g peanuts,0.5 tsp salt,2 tsp oil'))
+        ((300.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'))
     """
     recipe_details = str(recipe[1])
     recipe_ingredients_details = recipe_details.split(",")
@@ -59,11 +82,29 @@ def recipe_ingredients(recipe: tuple[str, str]) -> tuple[tuple[float, str, str]]
 
 def add_recipe(new_recipe: tuple[str, str], recipes: list[tuple[str, str]]):
     """Add a given recipe, new_recipe, into the list of recipes.
-       Hint: this function doesn't return anything  """
+       Hint: this function doesn't return anything 
+       Example:
+        >>> recipes = []
+        >>> recipe = ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')
+        >>> add_recipe(recipe, recipes)
+        >>> recipes
+        [('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')]
+        >>> add_recipe(recipe, recipes)
+        >>> recipes
+        [('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil'), ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')]
+  
+    """
     recipes.append(new_recipe)
 
 def find_recipe(recipe_name: str, recipes: list[tuple[str, str]]) -> tuple[str, str] | None:
     """This function find and returns a recipe with a given recipe_name if it cannot be found returns None 
+    Example:
+        >>> recipes = [('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')]
+        >>> find_recipe('peanut butter', recipes)
+        ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')
+        >>> find_recipe('cinnamon rolls', recipes)
+        >>> print(find_recipe('cinnamon rolls', recipes))
+        None
     """
     check_for_similarity_counter = 0  
     for item in recipes:
@@ -80,16 +121,36 @@ def find_recipe(recipe_name: str, recipes: list[tuple[str, str]]) -> tuple[str, 
 def remove_recipe(name: str, recipes: list[tuple[str, str]]) -> None:
     """remove a recipe from the list of recipes given the name of a recipe. If the recipe 
        name doesn't match any of the recipes withing the list of recipes then nothing happens
+    Example:
+        >>> recipes = [('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil'),
+        ('cinnamon rolls', '480 ml almond milk,115 g Nuttelex,50 g sugar,7 g
+        active dry yeast,5.5 cup flour,1 tsp salt,170 g Nuttelex,165 g brown
+        sugar,2 tbsp cinnamon,160 g powdered sugar,30 ml almond milk,0.5 tsp
+        vanilla extract')]
+        >>> remove_recipe('brownie', recipes)
+        >>> recipes
+        [('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil'), ('cinnamon
+        rolls', '480 ml almond milk,115 g Nuttelex,50 g sugar,7 g active dry
+        yeast,5.5 cup flour,1 tsp salt,170 g Nuttelex,165 g brown sugar,2 tbsp
+        cinnamon,160 g powdered sugar,30 ml almond milk,0.5 tsp vanilla
+        extract')]
+        >>> remove_recipe('cinnamon rolls', recipes)
+        >>> recipes
+        [('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')]
     """
     for pos, recipe in enumerate(recipes):
         if name in recipe:
             recipes.pop(pos)
     print(tuple(recipes))
-#NOTE come back to this later, why doesnt assert work
 
 def get_ingredient_amount(ingredient: str, recipe: tuple[str, str]) -> tuple[float, str] | None:
     """Return the amount and measure of a certain ingredient as a tuple[float, str] given an ingredient name 
        as a str and a recipe. If the ingredient doesnt exist then nothing happens
+       Example:
+        >>> recipe = ('peanut butter', '300 g peanuts,0.5 tsp salt,2 tsp oil')
+        >>> get_ingredient_amount('peanuts', recipe)
+        (300.0, 'g')
+        >>> get_ingredient_amount('soy beans', recipe)
     """
     if ingredient in recipe[1]:
         recipe_bits = recipe[1].split(",")
@@ -105,6 +166,21 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
 
        It is assumed that the measure is consistent for all ingredients of the same name. In addition, ingredient_details contains 
        all the information about the ingredient being added to the shopping list. Also, the order doesn't matter. 
+       Example:
+        >>> shopping_list = [(300.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'),
+        (2.0, 'tsp', 'oil')]
+        >>> add_to_shopping_list((1000.0, 'g', 'tofu'), shopping_list)
+        >>> shopping_list
+        [(300.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'),
+        (1000.0, 'g', 'tofu')]
+        >>> add_to_shopping_list((1200.0, 'g', 'peanuts'), shopping_list)
+        >>> shopping_list
+        [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'),
+        (1000.0, 'g', 'tofu')]
+        >>> add_to_shopping_list((8000.0, 'g', 'tofu'), shopping_list)
+        >>> shopping_list
+        [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'),
+        (9000.0, 'g', 'tofu')]
     """
 
     if shopping_list == []:
@@ -121,6 +197,8 @@ def add_to_shopping_list(ingredient_details: tuple[float, str, str], shopping_li
     return
 
 def get_index(ingredient_details: tuple[float, str, str], shopping_list: list[tuple[float, str, str] | None]) -> int:
+    """Returns the index position of a ingredient 
+    """
     index = -1
     for pos, ingredient in enumerate(shopping_list):
         if ingredient_details[2] == ingredient[2]:  # name matches
@@ -129,9 +207,31 @@ def get_index(ingredient_details: tuple[float, str, str], shopping_list: list[tu
     return index
 
 def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list: list) -> None:
-    """Remove a certain amount of an ingredient, with the given ingredient_name, from the shopping list. If the ingredient exists in the shopping_list
-       then the amount given as the parameter of this function should be subtracted from the amount that exists in the shopping_list. The ingredient should 
+    """Remove a certain amount of an ingredient, with the given ingredient_name, from the shopping list. 
+       If the ingredient exists in the shopping_list then the amount given as the parameter of this function
+       should be subtracted from the amount that exists in the shopping_list. The ingredient should 
        be removed from the shopping list altogether if the amount goes below 0.
+       Example:
+        >>> shopping_list = [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'),
+        (2.0, 'tsp', 'oil'), (9000.0, 'g', 'tofu'), (100.0, 'g', 'sugar'),
+        (50.0, 'g', 'tomato sauce'), (120.0, 'g', 'rice'),
+        (920.0, 'g', 'ice cream')]
+        >>> remove_from_shopping_list('ice cream', 500.0, shopping_list)
+        >>> shopping_list
+        [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'),
+        (9000.0, 'g', 'tofu'), (100.0, 'g', 'sugar'), (50.0, 'g', 'tomato
+        sauce'), (120.0, 'g', 'rice'), (420.0, 'g', 'ice cream')]
+        >>> remove_from_shopping_list('sugar', 500.0, shopping_list)
+        >>> shopping_list
+        [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'),
+        (9000.0, 'g', 'tofu'), (50.0, 'g', 'tomato sauce'), (120.0, 'g',
+        'rice'), (420.0, 'g', 'ice cream')]
+        >>> remove_from_shopping_list('ice cream', 9000.0, shopping_list)
+        >>> shopping_list
+        [(1500.0, 'g', 'peanuts'), (0.5, 'tsp', 'salt'), (2.0, 'tsp', 'oil'),
+        (9000.0, 'g', 'tofu'), (50.0, 'g', 'tomato sauce'), (120.0, 'g',
+        'rice')]
+
     """
     shopping_list_copy = shopping_list.copy()
     if shopping_list == []:
@@ -151,6 +251,21 @@ def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list
 
 def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, str, str]]:
     """Return a list of ingredients, (amount, measure, ingredient_name), given a list of recipes.
+    Example:
+        >>> shopping_list = generate_shopping_list([PEANUT_BUTTER,
+        MUNG_BEAN_OMELETTE])
+        >>> shopping_list
+        [(300.0, 'g', 'peanuts'), (1.0, 'tsp', 'salt'), (3.0, 'tsp', 'oil'),
+        (1.0, 'cup', 'mung bean'), (0.75, 'tsp', 'pink salt'), (0.25, 'tsp',
+        'garlic powder'), (0.25, 'tsp', 'onion powder'), (0.125, 'tsp',
+        'pepper'), (0.25, 'tsp', 'turmeric'), (1.0, 'cup', 'soy milk')]
+        >>> shopping_list = generate_shopping_list([PEANUT_BUTTER, PEANUT_BUTTER,
+        MUNG_BEAN_OMELETTE])
+        >>> shopping_list
+        [(600.0, 'g', 'peanuts'), (1.5, 'tsp', 'salt'), (5.0, 'tsp', 'oil'),
+        (1.0, 'cup', 'mung bean'), (0.75, 'tsp', 'pink salt'), (0.25, 'tsp',
+        'garlic powder'), (0.25, 'tsp', 'onion powder'), (0.125, 'tsp',
+        'pepper'), (0.25, 'tsp', 'turmeric'), (1.0, 'cup', 'soy milk')]
     """
     new_recipes = recipes.copy()
     temp_shopping_list = []
@@ -192,11 +307,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
         |␣␣␣1.0␣|␣␣tbsp␣␣␣|␣cocao␣nibs␣␣␣␣␣|
         |␣␣␣1.0␣|␣␣tbsp␣␣␣|␣flax␣seed␣␣␣␣␣␣|
     """
-    """
-    1. loop through shopping list, and find biggest amount, measurement, and ingredient
-    2. left, right, center allign each bit and print with '|'
-    """
-    #NOTE need max length of amonut, measurement, ingredient in order to line everything up 
+    #need max length of amonut, measurement, ingredient in order to line everything up 
     measure_len = 0
     amount_len = 0
     ingredient_len = 0
@@ -209,6 +320,7 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
             elif pos == 2 and len(char) > ingredient_len:
                 ingredient_len = len(char) # + 1
 
+    #returns each row of the displayed table 
     display_list = list()
     for item in shopping_list:
         for bit in item:
@@ -225,18 +337,19 @@ def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
         print(f"| {display_row[0]} |{spaces_on_left}{display_row[1]}{spaces_on_right}| {display_row[2]} |")
         display_list.clear()
 
-
-    #     display_list = list()
-    # for item in shopping_list:
-    #     for bit in item:
-    #         display_list.append(bit)
-    #     display_row = [str(display_list[0]).rjust(amount_len, " "), display_list[1].center(measure_len, " "), display_list[2].ljust(ingredient_len, " ")]
-    #     print("|", display_row[0], "|", display_row[1], "|", display_row[2], "|")
-    #     display_list.clear()
-
 def sanitise_command(command: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
        any numbers from the string. recipes can only contain lower case letters 
+       Example:
+        >>> sanitise_command('add chocolate brownies')
+        'add chocolate brownies'
+        >>> sanitise_command('add c4hocolate Brownies')
+        'add chocolate brownies'
+        >>> sanitise_command('add chocolate Brownies 5')
+        'add chocolate brownies'
+        >>> sanitise_command('add chocolate Brownies ')
+        'add chocolate brownies'
+
     """
 
     stripped_command = command.strip()
@@ -301,8 +414,6 @@ def main():
                     recipe = find_recipe(recipe_name, meal_plan)
                     indx = meal_plan.index(recipe)
                     recipe_collection.pop(indx)
-                #couldnt i just do recipe_collection.pop(recipe_collection.index(recipe))
-                #couldnt i just do recipe_collection.pop(recipe_collection.index(find_recipe(recipe_name, recipe_collection)))
         elif command[:5] == 'ls -a': #ls -a list all available recipes
             for indx in range(len(recipe_collection)):
                 print(recipe_collection[indx][0])
@@ -313,7 +424,7 @@ def main():
                 print('No recipe in meal plan yet.')
             else:
                 print(meal_plan)
-        elif command == 'g':           #generates shopping list for display_ingredients to display from
+        elif command == 'g': #generates shopping list for display_ingredients to display from
             shopping_list.clear()          
             shopping_list += generate_shopping_list(meal_plan)
             display_ingredients(shopping_list)
@@ -321,9 +432,6 @@ def main():
             break
         else:
             print('if you enter H or h you will get help')
-
-#NOTE List of recipes, cookbook, and recipe collection are the same thing.
-#NOTE Shopping list and cart are the same thing pretty much, but you'd find that the rm and rm -i commands refer to different lists. Just keep that in mind considering how many lists you want to make. 
 
 if __name__ == "__main__":
     main()
