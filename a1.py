@@ -289,9 +289,10 @@ def main():
             recipe_collection.append(new_recipe)
         elif command.startswith('add'):     #adds {recipe}: to the recipe collection, adds recipe from recipe collection
             #add an if statement for if recipe cant be found in recipe collection ask user to add a recipe
+            if find_recipe(command[4:-1], recipe_collection) == None:
+                print('I suggest making a recipe first')
+            
             add_recipe(find_recipe(command[4:-1], recipe_collection), meal_plan)
-
-            add_recipe(recipe, recipe_collection)
               
         elif command.startswith('rm'):
             command_bits = command.split(" ")
