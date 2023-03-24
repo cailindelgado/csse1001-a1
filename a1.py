@@ -251,14 +251,14 @@ def sanitise_command(command: str) -> str:
     # for indx, char in enumerate(command_list):
     #     if char 
     
-    sanitised_command = command.copy()
     for char in command: 
         if  char.isnumeric() == True:
-            sanitised_command = command.replace(char, "") # add one if doesnt work
-        else: 
-            sanitised_command = command.lower()
-    sanitised_command.strip
-    return sanitised_command
+            command = command.replace(char, "") # add one if doesnt work
+        elif char.isupper() == True: 
+            command = command.lower()
+    
+    command = command.strip
+    return command
 
     # for indx in range(len(command_list)):
     #     final_command += command_list[indx]
