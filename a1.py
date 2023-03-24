@@ -238,37 +238,22 @@ def sanitise_command(command: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
        any numbers from the string. recipes can only contain lower case letters 
     """
-    # for char in command: 
-    #     if  char.isnumeric() == True:
-    #         command = command.replace(char, "", 1) # add one if doesnt work
-    #     elif char.isupper() == True: 
-    #         command = command.lower()
-    
-    # command = command.strip
-    # return command
 
     stripped_command = command.strip()
-    list_command = stripped_command.split(" ")
     command_list = list()
     final_command = ""
 
-    if list_command[0] == "rm" or list_command[1] == "-i":
-         for char in stripped_command:
-            if char.isupper():
-                command_list.append(char.lower())
-            elif char.islower() or ord(char) == (32 or 45) or char.isnumeric():
-                command_list.append(char)
-    else:
-        for char in stripped_command:
-            if char.isupper():
-                command_list.append(char.lower())
-            elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
-                command_list.append(char) 
+    for char in stripped_command:
+        if char.isupper():
+            command_list.append(char.lower())
+        elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
+            command_list.append(char) 
 
-        for indx in range(len(command_list)):
-            final_command += command_list[indx]
+    for indx in range(len(command_list)):
+        final_command += command_list[indx]
 
     return final_command.strip()
+
 
 def main(): 
     """ for commant prompt, will take in a command and call the nessesary function for that command 
