@@ -238,18 +238,40 @@ def sanitise_command(command: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
        any numbers from the string. recipes can only contain lower case letters 
     """
-    stripped_command = command.strip()
-    command_list = list()
-    final_command = ""
+    # stripped_command = command.strip()
+    # command_list = list()
+    # final_command = ""
 
-    for char in stripped_command:
-        if char.isupper():
-            command_list.append(char.lower())
-        elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
-            command_list.append(char) 
+    # for char in stripped_command:
+    #     if char.isupper():
+    #         command_list.append(char.lower())
+    #     elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
+    #         command_list.append(char) 
+    
+    # for indx, char in enumerate(command_list):
+    #     if char 
+    
+    sanitised_command = command.copy()
+    for char in command: 
+        if  char.isnumeric() == True:
+            sanitised_command = command.replace(char, "") # add one if doesnt work
+        else: 
+            sanitised_command = command.lower()
+    sanitised_command.strip
+    return sanitised_command
 
-    for indx in range(len(command_list)):
-        final_command += command_list[indx]
+    # for indx in range(len(command_list)):
+    #     final_command += command_list[indx]
+
+    # if final_command[:4] != 'rm -i':
+    #     command_list.clear()
+    #     for char in final_command:
+    #         if char.isnumeric == False:
+    #             command_list.append(char)
+     
+    # for indx in range(len(command_list)):
+    #    final_command += command_list[indx]
+    #    command_list.clear()
 
     return final_command.strip()
 
