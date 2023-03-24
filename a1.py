@@ -4,7 +4,7 @@ Semester 1, 2023
 """
 
 def num_hours() -> float:
-    return 14.42477796077
+    return 16.42477796077
 
 # Fill these in with your details
 __author__ = "Cailin H Delgado"
@@ -301,7 +301,7 @@ def main():
                 ingredient_name = "".join(command_bits[3:-1])
                 remove_from_shopping_list(ingredient_name, quantity, meal_plan)
             else:                           # rm {recipe}: removes a recipe from the collection.
-                recipe_name = command[2:].strip()
+                recipe_name = command[2:]
                 recipe = find_recipe(recipe_name, meal_plan)
                 indx = meal_plan.index(recipe)
                 recipe_collection.pop(indx)
