@@ -154,13 +154,13 @@ def generate_shopping_list(recipes: list[tuple[str, str]]) -> list[tuple[float, 
     """Return a list of ingredients, (amount, measure, ingredient_name), given a list of recipes.
     """
     new_recipes = recipes.copy()
-    shopping_list = []
+    temp_shopping_list = []
     for recipe in new_recipes:
         ingredients_bits = recipe[1].split(",")
         for ingredient in ingredients_bits: 
             parsed_ingredient = parse_ingredient(ingredient)
-            add_to_shopping_list(parsed_ingredient, shopping_list)
-    return shopping_list
+            add_to_shopping_list(parsed_ingredient, temp_shopping_list)
+    return temp_shopping_list
 
 def display_ingredients(shopping_list: list[tuple[float, str, str]]) -> None:
     """Print the given shopping list in any order you wish. **attempt to print alphabetical
@@ -275,6 +275,8 @@ def main():
         MUNG_BEAN_OMELETTE
     ]
 
+    meal_plan = []
+
     shopping_list = []
 
     while True: 
@@ -286,39 +288,37 @@ def main():
             new_recipe = create_recipe()
             recipe_collection.append(new_recipe)
         elif command.startswith('add'):     #adds {recipe}: to the recipe collection, adds recipe from recipe collection
-            recipe = command[4:-1].replace(" ", "_")
+            #add an if statement for if recipe cant be found in recipe collection ask user to add a recipe
+            add_recipe(find_recipe(command[4:-1], recipe_collection), meal_plan)
+
             add_recipe(recipe, recipe_collection)
               
-            #NOTE add {recipe}: adds a recipe to the collection.
-            # add_recipe(new_recipe='{new recipe}', recipe_collection)
-            #NOTE in the cookbook? would it be a giant if statement
         elif command.startswith('rm'):
             command_bits = command.split(" ")
             if command_bits[1] == "-i":     # remove ingredient -> rm -i command
                 quantity = command_bits[len(command_bits - 1)]
                 ingredient_name = "".join(command_bits[3:-1])
-                remove_from_shopping_list(ingredient_name, quantity, shopping_list)
+                remove_from_shopping_list(ingredient_name, quantity, meal_plan)
             else:                           # rm {recipe}: removes a recipe from the collection.
                 recipe_name = command[2:].strip()
-                recipe = find_recipe(recipe_name, recipe_collection)
-                indx = recipe_collection.index(recipe)
+                recipe = find_recipe(recipe_name, meal_plan)
+                indx = meal_plan.index(recipe)
                 recipe_collection.pop(indx)
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(recipe))
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(find_recipe(recipe_name, recipe_collection)))
         elif command[:5] == 'ls -a': #ls -a list all available recipes
-            for indx in range(len(recipe_collection)):
+            for indx in range(len(meal_plan)):
                 print(recipe_collection[indx][0])
         elif command[:5] == 'ls -s': #ls -s display shopping list
             display_ingredients(shopping_list)
-        elif command[:2] == 'ls':     #ls list all recipes in shopping cart #NOTE is the shopping cart the shopping list or the recipe collection???
+        elif command[:2] == 'ls':     #ls list all recipes in shopping cart 
             if shopping_list == []:
                 print('No recipe in mealplan yet.')
             else:
                 print(shopping_list)
-       
-       
-        elif command == 'g':                #generates shopping list for display_ingredients to display from
-            generate_shopping_list(recipe_collection) #NOTE is broken fix now 
+        elif command == 'g':  
+            shopping_list.clear()              #generates shopping list for display_ingredients to display from
+            shopping_list += generate_shopping_list(meal_plan) #NOTE is broken fix now 
         elif command == 'q':                #Quit
             break
         else:
