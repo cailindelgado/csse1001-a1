@@ -33,7 +33,7 @@ def create_recipe() -> tuple[str, str]:
        until an empty string is returned. 
     """
     recipe_name = input("Please enter the recipe name: ")
-    recipe_list = [recipe_name]
+    recipe_list = [recipe_name.strip()]
     recipe_ingredients, recipe_final_ingredients = "", ""
     while True:
         recipe_ingredient = input("Please enter an ingredient: ")
@@ -291,8 +291,8 @@ def main():
             #add an if statement for if recipe cant be found in recipe collection ask user to add a recipe
             if find_recipe(command[4:], recipe_collection) == None:
                 print('I suggest making a recipe first')
-            
-            add_recipe(find_recipe(command[4:], recipe_collection), meal_plan)
+            else:
+                add_recipe(find_recipe(command[4:], recipe_collection), meal_plan)
               
         elif command.startswith('rm'):
             command_bits = command.split(" ")
