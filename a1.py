@@ -314,7 +314,7 @@ def main():
             display_ingredients(meal_plan)
         elif command[:2] == 'ls':     #ls list all recipes in meal plan 
             if meal_plan == []:
-                print('No recipe in mealplan yet.')
+                print('No recipe in meal plan yet.')
             else:
                 print(meal_plan)
         elif command == 'g':           #generates shopping list for display_ingredients to display from
