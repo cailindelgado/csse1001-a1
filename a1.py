@@ -291,7 +291,8 @@ def main():
             if command_bits[1] == "-i":     # remove ingredient -> rm -i command
                 quantity = command_bits[len(command_bits) - 1]
                 ingredient_name = " ".join(command_bits[2:-1])
-                remove_from_shopping_list(ingredient_name, quantity, meal_plan)
+                broken_down_meal_plan = generate_shopping_list(meal_plan)    
+                remove_from_shopping_list(ingredient_name, quantity, broken_down_meal_plan)
             else:                           # rm {recipe}: removes a recipe from the collection.
                 recipe_name = command[3:]
                 if find_recipe(recipe_name, meal_plan) != None:
