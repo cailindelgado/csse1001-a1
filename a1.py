@@ -311,7 +311,7 @@ def main():
             for indx in range(len(meal_plan)):
                 print(recipe_collection[indx][0])
         elif command[:5] == 'ls -s': #ls -s display shopping list
-            display_ingredients(meal_plan)
+            display_ingredients(shopping_list)
         elif command[:2] == 'ls':     #ls list all recipes in meal plan 
             if meal_plan == []:
                 print('No recipe in meal plan yet.')
