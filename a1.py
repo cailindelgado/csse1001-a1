@@ -282,7 +282,8 @@ def main():
         elif command.startswith('add'):     #add {recipe}: to the recipe collection, adds recipe from recipe collection
             #add an if statement for if recipe cant be found in recipe collection ask user to add a recipe
             if find_recipe(command[4:], recipe_collection) == None:
-                print('\nRecipe does not exist in the cook book. \nUse the mkrec command to create a new recipe. ')
+                # print('\nRecipe does not exist in the cook book. \nUse the mkrec command to create a new recipe. ')
+                pass
             else:
                 add_recipe(find_recipe(command[4:], recipe_collection), meal_plan)
               
