@@ -311,15 +311,15 @@ def main():
             for indx in range(len(meal_plan)):
                 print(recipe_collection[indx][0])
         elif command[:5] == 'ls -s': #ls -s display shopping list
-            display_ingredients(shopping_list)
-        elif command[:2] == 'ls':     #ls list all recipes in shopping cart 
-            if shopping_list == []:
+            display_ingredients(meal_plan)
+        elif command[:2] == 'ls':     #ls list all recipes in meal plan 
+            if meal_plan == []:
                 print('No recipe in mealplan yet.')
             else:
-                print(shopping_list)
-        elif command == 'g':  
-            shopping_list.clear()              #generates shopping list for display_ingredients to display from
-            shopping_list += generate_shopping_list(meal_plan) #NOTE is broken fix now 
+                print(meal_plan)
+        elif command == 'g':           #generates shopping list for display_ingredients to display from
+            shopping_list.clear()          
+            shopping_list += generate_shopping_list(meal_plan)
         elif command == 'q':                #Quit
             break
         else:
