@@ -238,40 +238,35 @@ def sanitise_command(command: str) -> str:
     """return a standardized command to all lowercase and no leading or trailing white spaces, removing 
        any numbers from the string. recipes can only contain lower case letters 
     """
-    # stripped_command = command.strip()
-    # command_list = list()
-    # final_command = ""
-
-    # for char in stripped_command:
-    #     if char.isupper():
-    #         command_list.append(char.lower())
-    #     elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
-    #         command_list.append(char) 
+    # for char in command: 
+    #     if  char.isnumeric() == True:
+    #         command = command.replace(char, "", 1) # add one if doesnt work
+    #     elif char.isupper() == True: 
+    #         command = command.lower()
     
-    # for indx, char in enumerate(command_list):
-    #     if char 
-    
-    for char in command: 
-        if  char.isnumeric() == True:
-            command = command.replace(char, "") # add one if doesnt work
-        elif char.isupper() == True: 
-            command = command.lower()
-    
-    command = command.strip
-    return command
+    # command = command.strip
+    # return command
 
-    # for indx in range(len(command_list)):
-    #     final_command += command_list[indx]
+    stripped_command = command.strip()
+    list_command = stripped_command.split(" ")
+    command_list = list()
+    final_command = ""
 
-    # if final_command[:4] != 'rm -i':
-    #     command_list.clear()
-    #     for char in final_command:
-    #         if char.isnumeric == False:
-    #             command_list.append(char)
-     
-    # for indx in range(len(command_list)):
-    #    final_command += command_list[indx]
-    #    command_list.clear()
+    if list_command[0] == "rm" or list_command[1] == "-i":
+         for char in stripped_command:
+            if char.isupper():
+                command_list.append(char.lower())
+            elif char.islower() or ord(char) == (32 or 45) or char.isnumeric():
+                command_list.append(char)
+    else:
+        for char in stripped_command:
+            if char.isupper():
+                command_list.append(char.lower())
+            elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
+                command_list.append(char) 
+
+        for indx in range(len(command_list)):
+            final_command += command_list[indx]
 
     return final_command.strip()
 
