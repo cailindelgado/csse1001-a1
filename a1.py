@@ -287,12 +287,12 @@ def main():
         elif command.startswith('mkrec'):   #make recipe / create recipe and adds it to collection
             new_recipe = create_recipe()
             recipe_collection.append(new_recipe)
-        elif command.startswith('add'):     #adds {recipe}: to the recipe collection, adds recipe from recipe collection
+        elif command.startswith('add'):     #add {recipe}: to the recipe collection, adds recipe from recipe collection
             #add an if statement for if recipe cant be found in recipe collection ask user to add a recipe
-            if find_recipe(command[4:-1], recipe_collection) == None:
+            if find_recipe(command[4:], recipe_collection) == None:
                 print('I suggest making a recipe first')
             
-            add_recipe(find_recipe(command[4:-1], recipe_collection), meal_plan)
+            add_recipe(find_recipe(command[4:], recipe_collection), meal_plan)
               
         elif command.startswith('rm'):
             command_bits = command.split(" ")
