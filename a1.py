@@ -388,7 +388,7 @@ def main():
 
     while True: 
         user_command = input('Please enter a command: ')
-        command = sanitise_command(user_command)
+        command = sanitise_command(user_command[:4])
         if command == 'h': #Help 
             print(HELP_TEXT)
         elif command.startswith('mkrec'):   #make recipe / create recipe and adds it to collection
