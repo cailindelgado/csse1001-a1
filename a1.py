@@ -133,7 +133,6 @@ def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list
        then the amount given as the parameter of this function should be subtracted from the amount that exists in the shopping_list. The ingredient should 
        be removed from the shopping list altogether if the amount goes below 0.
     """
-    #NOTE doesnt say i have to remove the item if its amount hits 0
     shopping_list_copy = shopping_list.copy()
     if shopping_list == []:
         return None
@@ -243,17 +242,10 @@ def sanitise_command(command: str) -> str:
     command_list = list()
     final_command = ""
 
-    if 'rm -i' in stripped_command.lower():  
-        for char in stripped_command:
-            if char.isupper():
-                command_list.append(char.lower())
-            elif char.islower() or ord(char) == (32 or 45) or char.isnumeric():
-                command_list.append(char)
-
     for char in stripped_command:
         if char.isupper():
             command_list.append(char.lower())
-        elif char.islower() or char.isspace() or ord(char) == 45:
+        elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
             command_list.append(char) 
 
     for indx in range(len(command_list)):
@@ -297,14 +289,15 @@ def main():
         elif command.startswith('rm'):
             command_bits = command.split(" ")
             if command_bits[1] == "-i":     # remove ingredient -> rm -i command
-                quantity = command_bits[len(command_bits - 1)]
-                ingredient_name = "".join(command_bits[3:-1])
+                quantity = command_bits[len(command_bits) - 1]
+                ingredient_name = " ".join(command_bits[2:-1])
                 remove_from_shopping_list(ingredient_name, quantity, meal_plan)
             else:                           # rm {recipe}: removes a recipe from the collection.
-                recipe_name = command[2:]
-                recipe = find_recipe(recipe_name, meal_plan)
-                indx = meal_plan.index(recipe)
-                recipe_collection.pop(indx)
+                recipe_name = command[3:]
+                if find_recipe(recipe_name, meal_plan) != None:
+                    recipe = find_recipe(recipe_name, meal_plan)
+                    indx = meal_plan.index(recipe)
+                    recipe_collection.pop(indx)
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(recipe))
                 #couldnt i just do recipe_collection.pop(recipe_collection.index(find_recipe(recipe_name, recipe_collection)))
         elif command[:5] == 'ls -a': #ls -a list all available recipes

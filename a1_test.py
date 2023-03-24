@@ -8,7 +8,6 @@ def test_get_recipe_name():
     assert output == 'chocolate peanut butter banana shake'
     # return output
 
-
 def test_parse_ingredients():
     raw_ingredient_detail = "0.75 cup water of life"
     output = parse_ingredient(raw_ingredient_detail)
