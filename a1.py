@@ -320,6 +320,7 @@ def main():
         elif command == 'g':           #generates shopping list for display_ingredients to display from
             shopping_list.clear()          
             shopping_list += generate_shopping_list(meal_plan)
+            display_ingredients(shopping_list)
         elif command == 'q':                #Quit
             break
         else:
