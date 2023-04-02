@@ -4,7 +4,7 @@ Semester 1, 2023
 """
 
 def num_hours() -> float:
-    return 16.42477796077
+    return 21.42477796077
 
 # Fill these in with your details
 __author__ = "Cailin H Delgado"
@@ -237,6 +237,8 @@ def remove_from_shopping_list(ingredient_name: str, amount: float, shopping_list
     if shopping_list == []:
         return None
     
+    amount = float(amount)
+
     for pos, item in enumerate(shopping_list_copy):
         if ingredient_name == item[2] and (amount >= item[0] or amount == item[0]):
             shopping_list.pop(pos)
@@ -359,14 +361,14 @@ def sanitise_command(command: str) -> str:
     for char in stripped_command:
         if char.isupper():
             command_list.append(char.lower())
-        elif char.islower() or char.isspace() or ord(char) == 45 or char.isnumeric:
+        elif char.islower() or char.isspace() or ord(char) == 45:
             command_list.append(char) 
 
     for indx in range(len(command_list)):
         final_command += command_list[indx]
 
-    return final_command.strip()
-
+    # print(final_command.strip())
+    return final_command.strip() 
 
 def main(): 
     """ for commant prompt, will take in a command and call the nessesary function for that command 
@@ -388,7 +390,7 @@ def main():
 
     while True: 
         user_command = input('Please enter a command: ')
-        command = sanitise_command(user_command[:4])
+        command = sanitise_command(user_command)
         if command == 'h': #Help 
             print(HELP_TEXT)
         elif command.startswith('mkrec'):   #make recipe / create recipe and adds it to collection
@@ -402,12 +404,24 @@ def main():
                 add_recipe(find_recipe(command[4:], recipe_collection), meal_plan)
               
         elif command.startswith('rm'):
-            command_bits = command.split(" ")
+            command_list = []
+            final_command = ""
+            for char in user_command:
+                if char.isupper():
+                    command_list.append(char.lower())
+                elif char.islower() or ord(char) == 32 or ord(char) == 45 or char.isnumeric():
+                    command_list.append(char)
+
+            for char in range(len(command_list)):
+                final_command += command_list[char]
+
+            command_bits = final_command.split(" ")
+
             if command_bits[1] == "-i":     # remove ingredient -> rm -i command
                 quantity = command_bits[len(command_bits) - 1]
                 ingredient_name = " ".join(command_bits[2:-1])
                 broken_down_meal_plan = generate_shopping_list(meal_plan)    
-                remove_from_shopping_list(ingredient_name, quantity, broken_down_meal_plan)
+                remove_from_shopping_list(ingredient_name, quantity, broken_down_meal_plan) 
             else:                           # rm {recipe}: removes a recipe from the collection.
                 recipe_name = command[3:]
                 if find_recipe(recipe_name, meal_plan) != None:
